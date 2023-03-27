@@ -18,6 +18,7 @@
     <div class="center">
         <div class="login-actions">
             <button type="button" class=" btn btnADD" data-bs-toggle="modal" data-bs-target="#addquizcategorymodel">Add Quiz Category</button>
+            <button type="button" class=" btn btnADD" @onclick=Logout>Logout</button>
         </div>
 
         @if (quizList != null)
@@ -167,6 +168,10 @@
         }
     }
 
+    void Logout()
+    {
+        NavigationManager.NavigateTo("/");
+    }
 
 
 

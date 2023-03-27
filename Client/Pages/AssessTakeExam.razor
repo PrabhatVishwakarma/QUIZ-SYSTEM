@@ -12,11 +12,11 @@
     <div class="sidebar">
         <h2>Questions</h2>
         <ul>
-            @for (int i = 1; i < questionList?.Capacity; i++)
-            {
-                <li class="@((i == 1) ? "active" : "")">Ques : @(i)</li>
-            }
-        </ul>
+    @for (int i = 0; i < questionList?.Count; i++)
+    {
+        <li class="@((i == questionIndex) ? "active" : "")">Ques : @(i + 1)</li>
+    }
+</ul>
     </div>
     <div class="main">
         <div class="main-heading">

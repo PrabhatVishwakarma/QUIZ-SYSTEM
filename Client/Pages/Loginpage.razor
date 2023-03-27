@@ -5,48 +5,44 @@
 @inject IJSRuntime JsRuntime
 
 <PageTitle>Tool Login</PageTitle>
-
-<div class="login-container">
-    <EditForm Model="@user" OnValidSubmit="Login">
-
-
-
-        <div class="login-container">
-            <DataAnnotationsValidator></DataAnnotationsValidator>
-            <div class="login-input-container">
-                <label for="email" class="login-input-label">Username</label>
-                <input type="email" id="email" @bind="@user.Email" form="Email" asp-for="email" required />
-                <ValidationMessage For="@(() => user.Email)"></ValidationMessage>
-                <span asp-validation-for="email"></span>
-            </div>
+    <div class="login-container">
+    <div class="login-form">
+        <EditForm Model="@user" OnValidSubmit="Login">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <div class="login-input-container">
+                    <label for="email" class="login-input-label">Username</label>
+                    <input type="email" id="email" @bind="@user.Email" form="Email" asp-for="email" required />
+                    <ValidationMessage For="@(() => user.Email)"></ValidationMessage>
+                    <span asp-validation-for="email"></span>
+                </div>
 
 
 
-            <div class="login-input-container">
-                <label for="password" class="login-input-label">Password</label>
-                <input type="password" id="password" @bind="@user.Password"
-                       asp-for="password"
-                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%^&*]).{8,}"
-                       title="Password must contain at least 8 characters,
+                <div class="login-input-container">
+                    <label for="password" class="login-input-label">Password</label>
+                    <input type="password" id="password" @bind="@user.Password"
+                           asp-for="password"
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%^&*]).{8,}"
+                           title="Password must contain at least 8 characters,
                 including at least one uppercase letter,
                 one lowercase letter, one number and one special character." form="Password" required />
-                <ValidationMessage For="@(() => user.Password)"></ValidationMessage>
-                <span asp-validation-for="email"></span>
-            </div>
-            @if (showError)
-            {
-                <div class="alert" style="width:25rem; color:red " role="alert"> Invalid username and password </div>
-            }
+                    <ValidationMessage For="@(() => user.Password)"></ValidationMessage>
+                    <span asp-validation-for="email"></span>
+                </div>
+                @if (showError)
+                {
+                    <div class="alert" style="width:25rem; color:red " role="alert"> Invalid username and password </div>
+                }
 
-            <div class="login-actions">
-                <button class="btn active">Login</button>
-                <button type="reset" class="btn">Cancel</button>
-            </div>
-        </div>
-
+                <div class="login-actions">
+                    <button class="btn active">Login</button>
+                    <button type="reset" class="btn">Cancel</button>
+                </div>
 
 
-    </EditForm>
+
+        </EditForm>
+    </div>
 </div>
 
 

@@ -32,14 +32,8 @@
             {
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
             }
-            <input type="checkbox" id="option-one-checkbox" @bind-value="@question.CheckBox1" />
-            @if (question.CheckBox1 == true)
-            {
-
-                question.IsCorrect = question.OptionOne + " ";
-
-            }
-
+            <input type="checkbox" id="option-one-checkbox" @bind="@question.CheckBox1" />
+           
         </div>
         <div class="input-options form-input">
             <label for="option2" class="checkbox-label">Option 2 :</label>
@@ -48,35 +42,18 @@
             {
                 <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
             }
-            <input type="checkbox" id="option-two-checkbox" @bind-value="@question.CheckBox2" />
-            @if (question.CheckBox2 == true)
-            {
-                question.IsCorrect += " " + question.OptionTwo + " ";
-
-            }
-
-
+            <input type="checkbox" id="option-two-checkbox" @bind="@question.CheckBox2" />
 
         </div>
         <div class="input-options form-input">
             <label for="option3" class="checkbox-label">Option 3 :</label>
             <input type="text" id="option3" name="option3" @bind="@question.OptionThree">
-            <input type="checkbox" id="option-three-checkbox" @bind-value="@question.CheckBox3" />
-            @if (question.CheckBox3 == true)
-            {
-                question.IsCorrect += " " + question.OptionThree + " ";
-
-            }
+            <input type="checkbox" id="option-three-checkbox" @bind="@question.CheckBox3" />
         </div>
         <div class="input-options form-input">
             <label for="option4" class="checkbox-label">Option 4 :</label>
             <input type="text" id="option4" name="option4" @bind="@question.OptionFour">
-            <input type="checkbox" id="option-four-checkbox" @bind-value="@question.CheckBox4" />
-            @if (question.CheckBox4 == true)
-            {
-                question.IsCorrect += " " + question.OptionFour + " ";
-
-            }
+            <input type="checkbox" id="option-four-checkbox" @bind="@question.CheckBox4" />
         </div>
 
         @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
@@ -108,6 +85,23 @@
     }
     protected async Task SaveQuestion()
     {
+        question.IsCorrect = "";
+        if (question.CheckBox1 == true)
+        {
+            question.IsCorrect += question.OptionOne + " ";
+        }
+        if (question.CheckBox2 == true)
+        {
+            question.IsCorrect += " " + question.OptionTwo + " ";
+        }
+        if (question.CheckBox3 == true)
+        {
+            question.IsCorrect += " " + question.OptionThree + " ";
+        }
+        if (question.CheckBox4 == true)
+        {
+            question.IsCorrect += " " + question.OptionFour + " ";
+        }
         var response = await Http.PutAsJsonAsync("api/question/" + QuestionId, question);
         bool questionResponse = await response.Content.ReadFromJsonAsync<bool>();
         this.flag = true;
@@ -129,6 +123,7 @@
         var response = await _Http.GetAsync("api/question/" + QuestionId);
         response.EnsureSuccessStatusCode();
         question = await response.Content.ReadFromJsonAsync<QuestionViewModel>();
+
 
     }
 

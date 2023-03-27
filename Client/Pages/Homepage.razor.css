@@ -86,19 +86,20 @@ th {
 
 
 .login-actions {
-    width: 54%;
-    margin: 12px;
-    right: 0;
+    margin: 20px 0 12px 70%;
+    width: 30%;
+   
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
    
 }
 
 .btnADD {
     background-color: #fd5f07;
-    width: 35%;
-    padding: 7px;
+    padding: 8px  20px;
     border: 1px solid #000;
     font-weight: 500;
-    margin-left: 45rem;
     color: white;
     border-radius: none;
 }

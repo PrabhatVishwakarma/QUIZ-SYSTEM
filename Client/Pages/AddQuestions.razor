@@ -92,17 +92,6 @@
         await getQuestion();
         await getQuizTitle();
     }
-    void Okay()
-    {
-        this.validResponse = false;
-        this.flag = false;
-        question.QuestionText = "";
-        NavigationManager.NavigateTo("/homepage");
-    }
-    @* void navigateToQuestion()
-    {
-        NavigationManager.NavigateTo("/editquizcategory");
-    }*@
     async Task getQuestion()
     {
         var response = await _http.GetAsync("api/question");
@@ -154,14 +143,50 @@
     }
     private async Task AddMore()
     {
-        @*var response = await _http.PostAsJsonAsync("api/Question", question);
-        var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();*@
-        @*if (questionResponse.QuestionId > 0)
+
+
+        // Check if question already exists in questionList
+        if (questionList.Any(q => q.QuizId == question.QuizId &&
+                           q.QuestionText.Equals(question.QuestionText, StringComparison.OrdinalIgnoreCase)))
         {
+            validResponse = true;
+            this.isDuplicate = true;
+            return;
+        }
+
+        if (question.CheckBox1 == true)
+        {
+            question.IsCorrect += question.OptionOne + " ";
+        }
+        if (question.CheckBox2 == true)
+        {
+            question.IsCorrect += " " + question.OptionTwo + " ";
+        }
+        if (question.CheckBox3 == true)
+        {
+            question.IsCorrect += " " + question.OptionThree + " ";
+        }
+        if (question.CheckBox4 == true)
+        {
+            question.IsCorrect += " " + question.OptionFour + " ";
+        }
+        // if question is not duplicate
+        if (question.QuestionText != "" && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
+        {
+            // Make a POST request to add quiz
+            var response = await _http.PostAsJsonAsync("api/question", question);
+            response.EnsureSuccessStatusCode();
+
+            // reset the form and create a new question object
             question = new QuestionViewModel();
             await JsRuntime.InvokeVoidAsync("resetForm", "#QuestionForm");
-        }*@
+
+            // refresh question list
+         
+            this.isDuplicate = false;
+        }
     }
+
     private void Cancel()
     {
         NavigationManager.NavigateTo("/homepage");
