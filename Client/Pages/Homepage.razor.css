@@ -1,0 +1,167 @@
+﻿
+
+a{
+    text-decoration: none;
+    padding: 8px 20px;
+}
+
+.master {
+    justify-content: center;
+    width: 100%;
+}
+
+.master-table {
+    text-align: auto;
+    width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
+   
+}
+.h5, h5 {
+    font-size: 13px;
+}
+
+.master-tablebutton {
+    width: 12rem;
+    height: 2rem;
+    background-color: #fd5f07;
+    color: black;
+    left: 0;
+    border: 1px solid #000;
+    font-weight: 400;
+}
+
+    .master-tablebutton:hover {
+        background-color: #eaeaea;
+        font: black;
+    }
+
+th {
+    background-color: gray;
+    border: 1px solid black;
+}
+
+.master-row {
+    padding-left: 2%;
+    align-items: center;
+}
+
+    .master-row:hover {
+        background-color: #ddd;
+    }
+
+.master-tablebody {
+    background-color: #fff;
+    background-color: #f1f1f1;
+    border:1px solid;
+    font-weight: 400;
+    font-size: 18px;
+    align-items: center;
+    text-align:center;
+}
+
+.master-head {
+    border-top: .5px solid black;
+    border-bottom: .5px solid black;
+    border-left: .5px solid black;
+    border-right: .5px solid black;
+    background-color: #f1f1f1;
+    width: 25%;
+    font-weight: 400;
+    font-size: 18px;
+    text-align:center;
+}
+
+
+.center {
+    margin-left: 14rem;
+    width: 80%;
+
+}
+
+.Allowedtime {
+    width: 100%;
+    height: 42px;
+}
+
+
+.login-actions {
+    width: 54%;
+    margin: 12px;
+    right: 0;
+   
+}
+
+.btnADD {
+    background-color: #fd5f07;
+    width: 35%;
+    padding: 7px;
+    border: 1px solid #000;
+    font-weight: 500;
+    margin-left: 45rem;
+    color: white;
+    border-radius: none;
+}
+.btnADD:hover {
+    background-color: transparent;
+    color: black;
+}
+
+.active {
+    background-color: #fd5f07;
+    color: #fff;
+}
+
+.Chnage-btn {
+    background-color: #fd5f07;
+    color:white;
+}
+
+
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+    .popup-container form {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+    }
+
+    .popup-container.show {
+        display: block;
+    }
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    z-index: 9999;
+}
+
+.form-input {
+    margin-bottom: 20px;
+    width: 100%;
+    align-content:center;
+    font-weight: 500;
+    font-size: 18px;
+}
+.Quiz-name, {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}

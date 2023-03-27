@@ -1,0 +1,82 @@
+﻿@page "/assesshomepage"
+@using System.Diagnostics;
+@using Tool.Shared
+@inject HttpClient _http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Quiz Instructions</PageTitle>
+
+<div class="Container">
+    <div class="Container-heading">
+        <h2>Quiz Instructions</h2>
+    </div>
+    <div class="quiz-instruction">
+        <p>1. All questions are multiple choice questions and are compulsory.</p>
+        <p>2. Passing criteria is set as 70% for all exams.</p>
+        <p>3. Please do not press ALT+TAB or any other key while attempting for exam. Else, your exam will be immediately terminated.</p>
+        <p>4. Please close all other running applications and disable all desktop alerts.</p>
+        <p>5. Please do not try to minimize exam window, click on address bar or switch to other application. Else, your exam will be immediately terminated.</p>
+        <p>6. Clicking on Next button will display question next in-line on screen. To navigate to previous question, click on specific question in list.</p>
+        <p>7. Un-attempted questions will be displayed in Red color. You can answer them if left with time.</p>
+        <p>8. Clicking on Submit button will submit the exam for assessment.</p>
+        <p>9. Reminder message to submit the exam will be displayed on screen before 5 minutes of its maximum allowed time. If not submitted before it reaches the limit, exam will be submitted automatically.</p>
+        <p>10. Before taking exam, please make sure you brush up your knowledge by navigating training material available here <a href="pdf/QuizExamMaterial.pdf" target="_blank" title="Read PDF"><i class="fa-solid fa-file-pdf icon"></i></a></p>
+        <div class="Quiz-category form-input">
+            <label for="quiz-category">Please select the exam you want to appear for from dropdown here -</label>
+            <select class="category-dropdown" @bind="@selectedQuizCategoryId">
+                <option disable selected>Quiz Category</option>
+                @foreach (var quiz in quizList)
+                {
+                    <option value="@quiz.QuizId">@quiz.QuizTitle</option>
+                }
+            </select>
+        </div>
+
+    </div>
+    <div class="form-actions">
+        <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
+        <button type="button" @onclick="@TakeQuiz" class="btn active">Take Quiz</button>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int QuizId { get; set; }
+
+   
+
+    public int selectedQuizCategoryId;
+    private List<QuizViewModel> quizList = new List<QuizViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetQuizCategory();
+    }
+
+    private async Task TakeQuiz()
+    {
+        var selectedQuiz = quizList.FirstOrDefault(q => q.QuizId == selectedQuizCategoryId);
+        if (selectedQuiz != null)
+        {
+            NavigationManager.NavigateTo("/assesstakeexam/" + selectedQuizCategoryId );
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    private async Task GetQuizCategory()
+    {
+        var response = await _http.GetAsync("api/quiz/all");
+        response.EnsureSuccessStatusCode();
+        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
+        foreach (var q in quizList)
+        {
+            Debug.WriteLine(q.QuizTitle);
+        }
+    }
+}
+}

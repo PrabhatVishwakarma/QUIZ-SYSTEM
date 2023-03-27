@@ -1,0 +1,44 @@
+﻿@page "/quizresult"
+@using System.Diagnostics;
+@using Tool.Shared
+@inject HttpClient _Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<div class="container">
+    <div class="container-heading">
+        Quiz Category :  <b>@quizList.FirstOrDefault()?.QuizTitle</b>
+    </div>
+    <div class="Content">
+        <h5>Score:</h5>
+        <br />
+        <h5>Result: </h5>
+    </div>
+    <div class="login-actions">
+        <button class="btn" @onclick="Exit">Exit</button>
+    </div>
+</div>
+
+@code {
+    List<QuizViewModel> quizList = new List<QuizViewModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await getQuizCategory();
+    }
+
+    async Task getQuizCategory()
+    {
+        var response = await _Http.GetAsync("api/quiz");
+        response.EnsureSuccessStatusCode();
+        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
+        foreach (var q in quizList)
+        {
+            Debug.WriteLine(q.QuizTitle);
+        }
+    }
+    void Exit()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

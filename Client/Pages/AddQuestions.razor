@@ -1,0 +1,176 @@
+﻿@page "/addquestion/{QuizId:int}"
+@using System.Diagnostics;
+@using Tool.Shared
+@inject HttpClient _http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+<PageTitle>AddQuestions</PageTitle>
+<div class="Container">
+    <div class="Container-heading">
+        <h2>Adding Question</h2>
+    </div>
+    <EditForm Model="@question" class="input-form" id="QuestionForm" OnValidSubmit="SaveQuestion">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <div class="Quiz-name form-input">
+            <label for="quiz-category">Quiz Category Name : &nbsp; <b> @quiz.QuizTitle</b> </label>
+        </div>
+        <div class="Question-text form-input">
+            <label for="question-text">Question Text:</label>
+<textarea @bind="@question.QuestionText" required></textarea>
+            @if ((string.IsNullOrEmpty(@question.QuestionText) || string.IsNullOrWhiteSpace(@question.QuestionText)) && flag)
+            {
+                <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
+            }
+        </div>
+        <div class="input-options form-input">
+            <label for="option-one" class="checkbox-label">Option 1:</label>
+            <input type="text" @bind-value="@question.OptionOne" required />
+            @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)) && flag)
+            {
+                <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
+            }
+            <input type="checkbox" id="option-one-checkbox" @bind="@question.CheckBox1" />
+        </div>
+
+        <div class="input-options form-input">
+            <label for="option-two" class="checkbox-label">Option 2:</label>
+            <input type="text" @bind-value="@question.OptionTwo" required />
+            @if ((string.IsNullOrEmpty(@question.OptionTwo) || string.IsNullOrWhiteSpace(@question.OptionTwo)) && flag)
+            {
+                <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
+            }
+            <input type="checkbox" id="option-two-checkbox" @bind="@question.CheckBox2" />
+        </div>
+        <div class="input-options form-input">
+            <label for="option-three" class="checkbox-label">Option 3:</label>
+            <input type="text" @bind-value="@question.OptionThree" required />
+            <input type="checkbox" id="option-three-checkbox" @bind="@question.CheckBox3" />
+        </div>
+        <div class="input-options form-input">
+            <label for="option-four" class="checkbox-label">Option 4:</label>
+            <input type="text" @bind-value="@question.OptionFour" required />
+            <input type="checkbox" id="option-four-checkbox" @bind="@question.CheckBox4" />
+        </div>
+        @if (!(question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4) && flag)
+        {
+            <br /> <div class="text-danger"><h6 style="margin-left:7rem"> At least One Check Box must be Checked ! </h6></div> <br />
+        }
+        <div class="form-actions">
+            @if (!validResponse)
+            {
+                <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
+                <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
+                <button type="button" @onclick="@AddMore" class="btn">Add More Question</button>
+            }
+            else if (isDuplicate)
+            {
+                <div class="alert-danger">Question already exists.</div>
+                <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
+                <button type="button" @onclick="@SaveQuestion" class="btn active">Save</button>
+                <button type="button" @onclick="@AddMore" class="btn">Add More Question</button>
+            }
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public int QuizId { get; set; }
+
+    List<QuestionViewModel> questionList = new List<QuestionViewModel>();
+    public QuestionViewModel question = new QuestionViewModel();
+    QuizViewModel quiz = new QuizViewModel();
+
+
+    bool flag = false; // used for check question or options are entered or not
+    bool validResponse = false;
+    bool isDuplicate = false;
+    protected override async Task OnInitializedAsync()
+    {
+        QuizId = QuizId;
+        question.QuizId = QuizId;
+        await getQuestion();
+        await getQuizTitle();
+    }
+    void Okay()
+    {
+        this.validResponse = false;
+        this.flag = false;
+        question.QuestionText = "";
+        NavigationManager.NavigateTo("/homepage");
+    }
+    @* void navigateToQuestion()
+    {
+        NavigationManager.NavigateTo("/editquizcategory");
+    }*@
+    async Task getQuestion()
+    {
+        var response = await _http.GetAsync("api/question");
+        response.EnsureSuccessStatusCode();
+        questionList = await response.Content.ReadFromJsonAsync<List<QuestionViewModel>>();
+    }
+    private async Task SaveQuestion()
+    {
+        this.flag = true;
+
+        // Check if qusetion already exists in questionList
+        if (questionList.Any(q => q.QuizId == question.QuizId &&
+                           q.QuestionText.Equals(question.QuestionText, StringComparison.OrdinalIgnoreCase)))
+        {
+            validResponse = true;
+            this.isDuplicate = true;
+            return;
+        }
+
+        if (question.CheckBox1 == true)
+        {
+            question.IsCorrect += question.OptionOne + " ";
+        }
+        if (question.CheckBox2 == true)
+        {
+            question.IsCorrect += " " + question.OptionTwo + " ";
+        }
+        if (question.CheckBox3 == true)
+        {
+            question.IsCorrect += " " + question.OptionThree + " ";
+        }
+        if (question.CheckBox4 == true)
+        {
+            question.IsCorrect += " " + question.OptionFour + " ";
+        }
+        // if question is not duplicate
+        if (question.QuestionText != "" && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
+        {
+            // Make a POST request to add quiz
+
+            var response = await _http.PostAsJsonAsync("api/question", question);
+            response.EnsureSuccessStatusCode();
+            // refresh question list
+            await getQuestion();
+            validResponse = true;
+            this.isDuplicate = false;
+            NavigationManager.NavigateTo("/editquizcategory/" + QuizId);
+        }
+    }
+    private async Task AddMore()
+    {
+        @*var response = await _http.PostAsJsonAsync("api/Question", question);
+        var questionResponse = await response.Content.ReadFromJsonAsync<QuestionViewModel>();*@
+        @*if (questionResponse.QuestionId > 0)
+        {
+            question = new QuestionViewModel();
+            await JsRuntime.InvokeVoidAsync("resetForm", "#QuestionForm");
+        }*@
+    }
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/homepage");
+    }
+    async Task getQuizTitle()
+    {
+        var response = await _http.GetAsync("api/quiz/" + QuizId);
+        response.EnsureSuccessStatusCode();
+        quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
+
+    }
+}

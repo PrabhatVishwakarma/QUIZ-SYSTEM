@@ -1,0 +1,186 @@
+﻿@page "/homepage"
+@using System.Diagnostics;
+@using System.Text.Json;
+@using Tool.Shared
+@inject HttpClient _http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<Sidebar></Sidebar>
+
+
+
+<PageTitle>Home Page</PageTitle>
+
+<div class="master p-4">
+    <br />
+    <br />
+    <div class="center">
+        <div class="login-actions">
+            <button type="button" class=" btn btnADD" data-bs-toggle="modal" data-bs-target="#addquizcategorymodel">Add Quiz Category</button>
+        </div>
+
+        @if (quizList != null)
+        {
+            <table class="master-table table table-striped table-borderless">
+                <thead>
+                    <tr class="master-head">
+                        <th class="master-head"><b>Category</b></th>
+                        <th class="master-head"><b>Uploaded By</b></th>
+                        <th class="master-head"><b>Allowed Time in Minutes</b></th>
+                        <th class="master-head"><b>Action</b></th>
+                    </tr>
+                </thead>
+                <tbody class="master-table3">
+                    @if (quizList != null)
+                    {
+                        @foreach (var q in quizList)
+                        {
+                            <tr class="master-row">
+                                <td class="master-tablebody">@q.QuizTitle</td>
+                                <td class="master-tablebody">Admin</td>
+                                <td class="master-tablebody">@q.Timer</td>
+                                <td class="master-tablebody">
+                                    <a href="/editquizcategory/@q.QuizId" class="btn"><i class="fa fa-edit"></i></a>
+                                    <a href="/addquestion/@q.QuizId" class="btn"><i class="fa-solid fa-circle-plus"></i></a>
+                                    @*                                    <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
+                        *@
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+<div class="modal fade " id="addquizcategorymodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Quiz Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick=@Okay></button>
+            </div>
+            <EditForm Model="@quiz">
+                <DataAnnotationsValidator />
+                <div class="modal-body">
+                    <form class="input-form">
+                        <div class="Quiz-name form-input">
+                            <label for="quiz-category">Quiz Category Name </label>
+                            <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
+                            @if ((string.IsNullOrEmpty(@quiz.QuizTitle) || string.IsNullOrWhiteSpace(@quiz.QuizTitle)) && flag)
+                            {
+                                <br /> <div class="text-danger"><h5>Quiz Category name cannot be empty !</h5></div>
+                            }
+                        </div>
+                        <div class="Allowed-Time form-input">
+                            <label for="allowed-time">Allowed Time in minutes </label>
+                            <input style="width: 27rem;height: 2rem;" class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" disabled="@validResponse" required>
+                            @if (quiz.Timer < 1 && flag)
+                            {
+                                <br /> <div class="text-danger"><h5>The timer value cannot be 0.</h5></div>
+                            }
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    @if (!validResponse)
+                    {
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
+                        <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
+                        @if (flag && quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
+                        {
+                            <div class="text-danger"><h5>A quiz category with that name already exists.</h5></div>
+                        }
+                    }
+                    else
+                    {
+                        <div>Record Saved</div>
+                        <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
+                    }
+                </div>
+
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    List<QuizViewModel> quizList = new List<QuizViewModel>();
+
+    bool flag = false;
+    bool validResponse = false;
+
+    async Task getQuizCategory()
+    {
+        var response = await _http.GetAsync("api/quiz/all");
+        response.EnsureSuccessStatusCode();
+        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
+        foreach (var q in quizList)
+        {
+            Debug.WriteLine(q.QuizTitle);
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await getQuizCategory();
+    }
+
+    void EditQuiz()
+    {
+        NavigationManager.NavigateTo("/editquizcategory/{QuizId:int}");
+    }
+    void AddQuestion()
+    {
+        NavigationManager.NavigateTo("/AddQuestion/{QuizId:int}");
+    }
+    QuizViewModel quiz = new QuizViewModel
+        {
+            QuizTitle = "",
+            Timer = 0,
+        };
+
+    async Task Save()
+    {
+        this.flag = true;
+
+        // Check if quiz title already exists in quizList
+        if (quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
+        {
+            validResponse = false;
+            return;
+        }
+
+        if (quiz.Timer >= 1 && quiz.QuizTitle != "")
+        {
+            // Make a POST request to add quiz
+            var response = await _http.PostAsJsonAsync("api/quiz", quiz);
+            response.EnsureSuccessStatusCode();
+
+            // Refresh quiz list
+            await getQuizCategory();
+
+            validResponse = true;
+        }
+    }
+
+
+
+
+    void Okay()
+    {
+        this.validResponse = false;
+        this.flag = false;
+        quiz.QuizTitle = "";
+        quiz.Timer = 0;
+        NavigationManager.NavigateTo("/homepage");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/homepage");
+    }
+}

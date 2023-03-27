@@ -1,0 +1,148 @@
+﻿@page "/assesstakeexam/{QuizId:int}"
+@using System.Linq
+@using System.Diagnostics;
+@using Tool.Shared
+@inject IJSRuntime JsRuntime
+@inject HttpClient Http
+@inject HttpClient _Http
+@inject NavigationManager NavigationManager
+@using Tool.Client.Components
+
+<div class="container">
+    <div class="sidebar">
+        <h2>Questions</h2>
+        <ul>
+            @for (int i = 1; i < questionList?.Capacity; i++)
+            {
+                <li class="@((i == 1) ? "active" : "")">Ques : @(i)</li>
+            }
+        </ul>
+    </div>
+    <div class="main">
+        <div class="main-heading">
+            <b>Quiz Category : @quiz?.QuizTitle</b>
+            <div class="timer">
+                <b>Timer: </b>
+                @if (hours > 0)
+                {
+                    @($"{hours}:{(minutes < 10 ? "0" : "")}{minutes}:{(seconds < 10 ? "0" : "")}{seconds}")
+                }
+                else if (minutes > 0)
+                {
+                    @($"{minutes}:{(seconds < 10 ? "0" : "")}{seconds}")
+                }
+                else
+                {
+                    @($"{seconds} seconds")
+                }
+            </div>
+        </div>
+        <br />
+        <Question Question="@questionList?[questionIndex]" serialNo="@serialNo" />
+        <div class="buttons">
+            <button class=" btn" id="next" @onclick="changeQuestion">Next</button>
+            <button class=" btn alert-danger" data-bs-toggle="modal" data-bs-target="#submitquizmodel">Finish</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="submitquizmodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog delete-dialog-box">
+        <div class="dialog-content">
+            <div class="dialog-body">
+                Are you sure you want to submit the exam?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn action-btn" data-bs-dismiss="modal">No</button>
+                <button type="button" data-bs-dismiss="modal" @onclick=submit class="btn action-btn alert-danger" id="submitquizButton">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int QuizId { get; set; }
+    Stopwatch stopwatch = new Stopwatch();
+    int minutes = 0;
+    int seconds = 0;
+    int hours = 0;
+    QuestionViewModel question = new QuestionViewModel();
+    QuizViewModel quiz = new QuizViewModel();
+    List<QuestionViewModel> questionList = new List<QuestionViewModel>();
+    private int serialNo;
+    protected int questionIndex = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        serialNo = 1;
+        await getQuiz();
+        minutes = (int)quiz.Timer;
+        hours = minutes / 60;
+        minutes = minutes % 60;
+        seconds = 0;
+        stopwatch.Start();
+        await Task.Delay(TimeSpan.FromSeconds(1));
+        await updateTime();
+    }
+
+
+    async Task updateTime()
+    {
+        while (hours >= 0 && minutes >= 0 && seconds >= 0)
+        {
+            if (seconds == 0)
+            {
+                if (minutes == 0)
+                {
+                    if (hours == 0)
+                    {
+                        // Handle case where timer has ended
+                        stopwatch.Stop();
+                        NavigationManager.NavigateTo("/quizresult");
+                        return;
+                    }
+                    else
+                    {
+                        hours--;
+                        minutes = 59;
+                    }
+                }
+                else
+                {
+                    minutes--;
+                }
+                seconds = 59;
+            }
+            else
+            {
+                seconds--;
+            }
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            StateHasChanged();
+        }
+    }
+
+    async Task getQuiz()
+    {
+        var response = await _Http.GetAsync("api/quiz/" + QuizId);
+        response.EnsureSuccessStatusCode();
+        quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
+        questionList = quiz?.Questions;
+    }
+
+  
+    protected void changeQuestion()
+    {
+        if (questionIndex < questionList.Count - 1)
+        {
+            questionIndex++;
+            serialNo++;
+        }
+    }
+
+    void submit()
+    {
+        NavigationManager.NavigateTo("/quizresult");
+    }
+}
