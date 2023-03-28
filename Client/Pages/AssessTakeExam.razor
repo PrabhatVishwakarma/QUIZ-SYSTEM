@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="submitquizmodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="submitquizmodel1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog delete-dialog-box">
         <div class="dialog-content">
             <div class="dialog-body">
@@ -54,7 +54,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn action-btn" data-bs-dismiss="modal">No</button>
-                <button type="button" data-bs-dismiss="modal" @onclick=submit class="btn action-btn alert-danger" id="submitquizButton">Yes</button>
+                <button type="button" data-bs-dismiss="modal" @onclick=submit class="btn action-btn alert-danger" id="submitquizButton1">Yes</button>
             </div>
         </div>
     </div>
@@ -84,6 +84,13 @@
         stopwatch.Start();
         await Task.Delay(TimeSpan.FromSeconds(1));
         await updateTime();
+        await ShowTimeModal();
+    }
+
+
+    async Task ShowTimeModal()
+    {
+        await JsRuntime.InvokeVoidAsync("$('#submitquizmodel1').modal('show')");
     }
 
 
@@ -97,7 +104,6 @@
                 {
                     if (hours == 0)
                     {
-                        // Handle case where timer has ended
                         stopwatch.Stop();
                         NavigationManager.NavigateTo("/quizresult");
                         return;
@@ -113,6 +119,12 @@
                     minutes--;
                 }
                 seconds = 59;
+
+                // show time modal when 5 minutes are left
+                if (hours == 0 && minutes == 5 && seconds == 0)
+                {
+                    await ShowTimeModal();
+                }
             }
             else
             {

@@ -6,19 +6,19 @@
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
 <PageTitle>EditQuestions</PageTitle>
-
+<div class="master p-4">
+<div class="Container-heading">
+    <h2>Edit Question</h2>
+    <a class="btn-close" @onclick="OnCloseClick"></a>
+</div>
 <div class="Container">
-    <div class="Container-heading">
-        <h2>Edit Question</h2>
-    </div>
-
     <EditForm Model="@question" class="input-form" OnValidSubmit="SaveQuestion">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <div class="Quiz-name form-input">
-            <label for="quiz-category">Quiz Category Name : <b>@question.Quiz?.QuizTitle </b></label>
+            <label for="quiz-category">Quiz Category Name : &nbsp;<b>@question.Quiz?.QuizTitle </b></label>
         </div>
         <div class="Question-Text form-input">
-            <label for="question-text">Question Text </label>
+            <label for="question-text"><b>Question Text</b> </label>
             <textarea id="question-text" name="question-text" @bind="@question.QuestionText" required></textarea>
             @if ((string.IsNullOrEmpty(@question.QuestionText) || string.IsNullOrWhiteSpace(@question.QuestionText)))
             {
@@ -26,7 +26,7 @@
             }
         </div>
         <div class="input-options form-input">
-            <label for="option1" class="checkbox-label">Option 1 : </label>
+            <label for="option1" class="checkbox-label"><b>Option 1 : </b></label>
             <input type="text" id="option1" name="option1" @bind="@question.OptionOne" required>
             @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)))
             {
@@ -36,7 +36,7 @@
            
         </div>
         <div class="input-options form-input">
-            <label for="option2" class="checkbox-label">Option 2 :</label>
+            <label for="option2" class="checkbox-label"><b>Option 2 :</b></label>
             <input type="text" id="option2" name="option2" @bind="@question.OptionTwo" required>
             @if ((string.IsNullOrEmpty(@question.OptionTwo) || string.IsNullOrWhiteSpace(@question.OptionTwo)))
             {
@@ -46,12 +46,12 @@
 
         </div>
         <div class="input-options form-input">
-            <label for="option3" class="checkbox-label">Option 3 :</label>
+            <label for="option3" class="checkbox-label"><b>Option 3 :</b></label>
             <input type="text" id="option3" name="option3" @bind="@question.OptionThree">
             <input type="checkbox" id="option-three-checkbox" @bind="@question.CheckBox3" />
         </div>
         <div class="input-options form-input">
-            <label for="option4" class="checkbox-label">Option 4 :</label>
+            <label for="option4" class="checkbox-label"><b>Option 4 :</b></label>
             <input type="text" id="option4" name="option4" @bind="@question.OptionFour">
             <input type="checkbox" id="option-four-checkbox" @bind="@question.CheckBox4" />
         </div>
@@ -67,7 +67,7 @@
         </div>
 
     </EditForm>
-</div>
+</div></div>
 
 @code {
     [Parameter]
@@ -113,6 +113,12 @@
     void Cancel()
     {
         NavigationManager.NavigateTo("/editquizcategory/" + question.QuizId);
+    }
+
+    void OnCloseClick()
+    {
+        NavigationManager.NavigateTo("/editquizcategory/" + question.QuizId);
+
     }
 
     bool flag = false;

@@ -4,21 +4,36 @@
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "aktiv-grotesk", Arial, Â sans-serif;
 }
+.btn-close {
+    position: absolute;
+    right: 25px;
+    color: black;
+    cursor: pointer;
+}
 
 
-
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
 .Container {
     background-color: #eaeaea;
     width: 100%;
-    margin-top: 80px;
+    padding: 10px;
     height: 41rem;
 }
 
 
 
 .Container-heading {
-    margin: 0px 20px 30px 20px;
     box-sizing: border-box;
+    display: flex;
+    margin-top: 3.5em;
+    padding: 10px;
+    margin-left: 10px;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
