@@ -12,11 +12,11 @@
     <div class="sidebar">
         <h2>Questions</h2>
         <ul>
-    @for (int i = 0; i < questionList?.Count; i++)
-    {
-        <li class="@((i == questionIndex) ? "active" : "")">Ques : @(i + 1)</li>
-    }
-</ul>
+            @for (int i = 0; i < questionList?.Count; i++)
+            {
+                <li class="@((i == questionIndex) ? "active" : "")">Ques : @(i + 1)</li>
+            }
+        </ul>
     </div>
     <div class="main">
         <div class="main-heading">
@@ -40,17 +40,17 @@
         <br />
         <Question Question="@questionList?[questionIndex]" serialNo="@serialNo" />
         <div class="buttons">
-            <button class=" btn" id="next" @onclick="changeQuestion">Next</button>
+            <button class=" btn" id="previous" @onclick="changeQuestionPrevious">Previous</button>
+            <button class=" btn" id="next" @onclick="changeQuestionNext">Next</button>
             <button class=" btn alert-danger" data-bs-toggle="modal" data-bs-target="#submitquizmodel">Finish</button>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="submitquizmodel1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="submitquizmodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog delete-dialog-box">
         <div class="dialog-content">
             <div class="dialog-body">
-                Are you sure you want to submit the exam?
+                 Are you sure you want to submit the exam?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn action-btn" data-bs-dismiss="modal">No</button>
@@ -59,10 +59,29 @@
         </div>
     </div>
 </div>
-
+@if (showTimeModal)
+{
+    <div class="modal-dialog" id="timeAlert" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="time-alert-title">Time Alert</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Only 5 minutes left for Blazor WebAssembly.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+}
 @code {
     [Parameter]
     public int QuizId { get; set; }
+    bool showTimeModal = false;
     Stopwatch stopwatch = new Stopwatch();
     int minutes = 0;
     int seconds = 0;
@@ -84,15 +103,7 @@
         stopwatch.Start();
         await Task.Delay(TimeSpan.FromSeconds(1));
         await updateTime();
-        await ShowTimeModal();
     }
-
-
-    async Task ShowTimeModal()
-    {
-        await JsRuntime.InvokeVoidAsync("$('#submitquizmodel1').modal('show')");
-    }
-
 
     async Task updateTime()
     {
@@ -119,21 +130,24 @@
                     minutes--;
                 }
                 seconds = 59;
-
-                // show time modal when 5 minutes are left
-                if (hours == 0 && minutes == 5 && seconds == 0)
-                {
-                    await ShowTimeModal();
-                }
             }
             else
             {
                 seconds--;
             }
+
+            // check if timer has reached 5 minutes
+            if (hours == 0 && minutes == 5 && seconds == 0 && !showTimeModal)
+            {
+                showTimeModal = true;
+                await JsRuntime.InvokeVoidAsync("$('#timeAlert').modal('show')");
+            }
+
             await Task.Delay(TimeSpan.FromSeconds(1));
             StateHasChanged();
         }
     }
+
 
     async Task getQuiz()
     {
@@ -143,8 +157,8 @@
         questionList = quiz?.Questions;
     }
 
-  
-    protected void changeQuestion()
+
+    protected void changeQuestionNext()
     {
         if (questionIndex < questionList.Count - 1)
         {
@@ -152,7 +166,14 @@
             serialNo++;
         }
     }
-
+    protected void changeQuestionPrevious()
+    {
+        if (questionIndex < questionList.Count + 1)
+        {
+            questionIndex--;
+            serialNo--;
+        }
+    }
     void submit()
     {
         NavigationManager.NavigateTo("/quizresult");

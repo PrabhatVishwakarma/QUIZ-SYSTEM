@@ -46,7 +46,10 @@
     font-weight: 400;
     font-size: 20px;
 }
+.form{
+    width:25rem;
 
+}
 input {
     height: 2.5rem;
     width: 25rem;

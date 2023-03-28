@@ -9,6 +9,7 @@
     <div class="login-form">
         <EditForm Model="@user" OnValidSubmit="Login">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
+                <div class="form"
                 <div class="login-input-container">
                     <label for="email" class="login-input-label">Username</label>
                     <input type="email" id="email" @bind="@user.Email" form="Email" asp-for="email" required />
@@ -20,8 +21,7 @@
 
                 <div class="login-input-container">
                     <label for="password" class="login-input-label">Password</label>
-                    <input type="password" id="password" @bind="@user.Password"
-                           asp-for="password"
+                    <input type="password" id="password" @bind="@user.Password"  asp-for="password"
                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%^&*]).{8,}"
                            title="Password must contain at least 8 characters,
                 including at least one uppercase letter,
@@ -37,6 +37,7 @@
                 <div class="login-actions">
                     <button class="btn active">Login</button>
                     <button type="reset" class="btn">Cancel</button>
+                </div>
                 </div>
 
 
@@ -68,11 +69,11 @@
         bool loginResponse = await response.Content.ReadFromJsonAsync<bool>();
         if (loginResponse)
         {
-            if (user.Email.Contains("assess") || user.Email.Contains("Assess") || user.Email.Contains("ASSESS"))
+            if (user.Email.Contains("assess@persistent.com") || user.Email.Contains("Assess@persistent.com") || user.Email.Contains("ASSESS@PERSISTENT.COM"))
             {
                 NavigationManager.NavigateTo("/assesshomepage");
             }
-            else if (user.Email.Contains("admin") || user.Email.Contains("Admin") || user.Email.Contains("ADMIN"))
+            else if (user.Email.Contains("admin@persistent.com") || user.Email.Contains("Admin@persistent.com") || user.Email.Contains("ADMIN@PERSISTENT.COM"))
             {
                 NavigationManager.NavigateTo("/homepage");
             }
