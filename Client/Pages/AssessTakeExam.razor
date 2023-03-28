@@ -59,29 +59,9 @@
         </div>
     </div>
 </div>
-@if (showTimeModal)
-{
-    <div class="modal-dialog" id="timeAlert" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="time-alert-title">Time Alert</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Only 5 minutes left for Blazor WebAssembly.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-}
 @code {
     [Parameter]
     public int QuizId { get; set; }
-    bool showTimeModal = false;
     Stopwatch stopwatch = new Stopwatch();
     int minutes = 0;
     int seconds = 0;
@@ -135,14 +115,6 @@
             {
                 seconds--;
             }
-
-            // check if timer has reached 5 minutes
-            if (hours == 0 && minutes == 5 && seconds == 0 && !showTimeModal)
-            {
-                showTimeModal = true;
-                await JsRuntime.InvokeVoidAsync("$('#timeAlert').modal('show')");
-            }
-
             await Task.Delay(TimeSpan.FromSeconds(1));
             StateHasChanged();
         }
