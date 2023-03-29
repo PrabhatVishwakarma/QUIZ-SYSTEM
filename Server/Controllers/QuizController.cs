@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Tool.Server.Helpers;
 using Tool.Server.Model;
+using Tool.Shared.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,9 +35,11 @@ namespace Tool.Server.Controllers
         // GET: api/<QuizController>
         [HttpGet]
         [Route("all")]
-        public async Task<List<Quiz>> GetAll()
+        public async Task<List<Quiz>> GetAll([FromQuery] PaginationDTO pagination) 
         {
-            return await _quizService.GetAllQuizCategory();
+            var queryable = _dbContext.Quizs.AsQueryable();
+            await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.QuantityPerPage);
+            return await queryable.Paginate(pagination).ToListAsync();
         }
 
         // POST api/<QuizController>
