@@ -10,7 +10,7 @@ namespace Tool.Shared
 {
     public class LoginViewModel
     {
-        public int Id
+        public int UserId
         {
             get;
             set;

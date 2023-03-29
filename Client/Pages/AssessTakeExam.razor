@@ -115,10 +115,20 @@
             {
                 seconds--;
             }
+
+            // Check if remaining time is 5 minutes
+            if (hours == 0 && minutes == 5 && seconds == 0)
+            {
+                // Execute JavaScript function to show warning popup
+                await JsRuntime.InvokeAsync<object>("alert", "Warning: You have 5 minutes remaining to complete the quiz!");
+            }
+
+
             await Task.Delay(TimeSpan.FromSeconds(1));
             StateHasChanged();
         }
     }
+
 
 
     async Task getQuiz()
@@ -138,14 +148,16 @@
             serialNo++;
         }
     }
+
     protected void changeQuestionPrevious()
     {
-        if (questionIndex < questionList.Count + 1)
+        if (questionIndex > 0) // fixed condition here
         {
             questionIndex--;
             serialNo--;
         }
     }
+
     void submit()
     {
         NavigationManager.NavigateTo("/quizresult");

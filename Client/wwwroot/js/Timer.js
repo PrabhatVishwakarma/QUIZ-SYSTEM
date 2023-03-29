@@ -1,12 +1,3 @@
-﻿
-    function startTimer(timerElem) {
-        var timerValue = parseInt(timerElem.innerHTML);
-    var interval = setInterval(function() {
-            if (timerValue > 0) {
-        timerValue--;
-    timerElem.innerHTML = timerValue;
-            } else {
-        clearInterval(interval);
-            }
-        }, 1000);
-    }
+﻿function showWarningPopup() {
+    alert("Only 5 minutes left");
+}
