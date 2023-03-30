@@ -8,7 +8,8 @@
 <div class="master p-4">
 <div class="Container-heading">
     <h2>Adding Question</h2>
-    <a class="btn-close" @onclick="OnCloseClick"></a>
+        <button type="button" class="button" @onclick=OnBackClick>Back</button>
+    @*<a class="btn-close" @onclick="OnCloseClick"></a>*@
 </div>
 <div class="Container">
     <EditForm Model="@question" class="input-form" id="QuestionForm" OnValidSubmit="SaveQuestion">
@@ -188,14 +189,14 @@
             this.isDuplicate = false;
         }
     }
-    private void OnCloseClick()
+    private void OnBackClick()
     {
         NavigationManager.NavigateTo("/homepage");
     }
 
     private void Cancel()
     {
-        OnCloseClick();
+        OnBackClick();
     }
     async Task getQuizTitle()
     {

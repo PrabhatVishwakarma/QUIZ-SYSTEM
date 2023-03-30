@@ -9,7 +9,8 @@
 <div class="master p-4">
 <div class="Container-heading">
     <h2>Edit Question</h2>
-    <a class="btn-close" @onclick="OnCloseClick"></a>
+        <button type="button" class="button" @onclick=OnBackClick>Back</button>
+   @* <a class="btn-close" @onclick="OnCloseClick"></a>*@
 </div>
 <div class="Container">
     <EditForm Model="@question" class="input-form" OnValidSubmit="SaveQuestion">
@@ -115,7 +116,7 @@
         NavigationManager.NavigateTo("/editquizcategory/" + question.QuizId);
     }
 
-    void OnCloseClick()
+    void OnBackClick()
     {
         NavigationManager.NavigateTo("/editquizcategory/" + question.QuizId);
 

@@ -15,7 +15,8 @@
     <div class="center">
         <div class="Quiz-name form-input">
             <label for="quiz-category">Quiz Category Name : <b>@quiz.QuizTitle</b></label>
-            <a class="btn-close" @onclick="OnCloseClick"></a>
+            <button type="button" class="button" @onclick=OnBackClick>Back</button>
+            @*<a class="btn-close" @onclick="OnCloseClick"></a>*@
         </div>
         @if (questionList != null)
         {
@@ -108,7 +109,7 @@
     }
 
 
-    void OnCloseClick()
+    void OnBackClick()
     {
         NavigationManager.NavigateTo("/homepage");
     }

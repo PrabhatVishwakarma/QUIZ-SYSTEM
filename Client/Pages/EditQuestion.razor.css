@@ -114,7 +114,20 @@ input[type="checkbox"] {
 
 /* Form Button */
 
-
+.button {
+    position: absolute;
+    right: 25px;
+    width: 80px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 6px;
+    border: solid 1px;
+    background-color: #fd5f07;
+    color: black;
+    cursor: pointer;
+    text-align: center;
+}
 
 .Form-actions {
     width: 60%;
