@@ -16,48 +16,51 @@
     <div class="center">
         <div class="Quiz-name form-input">
             <label for="quiz-category">Quiz Category Name : <b>@quiz.QuizTitle</b></label>
-            <a class="btn-close" @onclick="OnCloseClick"></a>
+            <a class="close" @onclick="OnCloseClick"><i class="fa-solid fa-arrow-left fa-2xl" style="color: #000000;"></i></a>
         </div>
         @if (questionList != null)
         {
-            <table class="master-table table table-striped table-borderless">
-                <thead>
-                    <tr class="master-head">
-                        <th class="master-head QuestionNo"><b>Question #</b> </th>
-                        <th class="master-head QuestionText"><b>Question Text</b></th>
-                        <th class="master-head Questionoption"><b>Correct Option</b></th>
-                        <th class="master-head QuestionNo"><b>Action</b></th>
-                    </tr>
-                </thead>
-                <tbody class="master-table3">
-                    @foreach (var q in questionList) {
-                        int index = (currentPage - 1) * quantityPerPage + questionList.IndexOf(q) + 1;
-                        <tr class="master-row">
-                            <td class="master-tablebody" style="text-align: center;">@index</td>
-                            <td class="master-tablebody">@q.QuestionText</td>
-                            <td class="master-tablebody">@q.IsCorrect</td>
-                             <td class="master-tablebody " style="text-align: center;">
-                                <button type="button" class="btn"><a  style="color: black; padding:0" title="Edit Question" href="/editquestion/@q.QuestionId"><i class="fa fa-edit"></i></a></button>
-                                <button type="button" class="btn" data-bs-toggle="modal" title="Delete Question" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionToDelete = q.QuestionId; serialNo = index; }"><i class="fa-regular fa-trash-can"></i></button>
-                                </td>
+                <table class="master-table table table-striped table-borderless">
+                    <thead>
+                        <tr class="master-head">
+                            <th class="master-head QuestionNo"><b>Question #</b> </th>
+                            <th class="master-head QuestionText"><b>Question Text</b></th>
+                            <th class="master-head Questionoption"><b>Correct Option</b></th>
+                            <th class="master-head QuestionNo"><b>Action</b></th>
                         </tr>
+                    </thead>
+                    <tbody class="master-table3">
+                    @foreach (var q in questionList)
+                    {
+                        int index = (currentPage - 1) * quantityPerPage + questionList.IndexOf(q) + 1;
+                                <tr class="master-row">
+                                    <td class="master-tablebody" style="text-align: center;">@index</td>
+                                    <td class="master-tablebody">@q.QuestionText</td>
+                                    <td class="master-tablebody">@q.IsCorrect</td>
+                                     <td class="master-tablebody " style="text-align: center;">
+                                         <button type="button" class="btn"><a  style="color: black; padding:0" title="Edit Question" href="/editquestion/@q.QuestionId"><i class="fa fa-edit"></i></a></button>
+                                        <button type="button" class="btn"><a style="color: black; padding:2px" title="Add More Question" href="/addquestion/@q.QuizId" class="btn"><i class="fa-solid fa-circle-plus"></i></a></button>
+                                        <button type="button" class="btn" data-bs-toggle="modal" title="Delete Question" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionToDelete = q.QuestionId; serialNo = index; }"><i class="fa-regular fa-trash-can"></i></button>
+
+                                        </td>
+                                </tr>
                     }
                     @*Delete dialogue box*@
-                    <div class="modal fade" id="deleteQuizCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog delete-dialog-box">
-                            <div class="dialog-content">
-                                <div class="dialog-body">
-                                    Are you sure you want to delete question number <b>@serialNo</b> from <b>@quiz.QuizTitle</b> ?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn action-btn" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" data-bs-dismiss="modal" @onclick="@Delete" class="btn action-btn active" id="deleteQuizCategoryButton">Delete</button>
+                        <div class="modal fade" id="deleteQuizCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog delete-dialog-box">
+                                <div class="dialog-content">
+                                    <div class="dialog-body">
+                                        Are you sure you want to delete question number <b>@serialNo</b> from <b>@quiz.QuizTitle</b> ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn action-btn" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" data-bs-dismiss="modal" @onclick="@Delete" class="btn action-btn active" id="deleteQuizCategoryButton">Delete</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
         }
     </div>
 </div>
@@ -79,21 +82,25 @@
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
     QuizViewModel quiz = new QuizViewModel();
 
-    protected override async Task OnInitializedAsync() {
+    protected override async Task OnInitializedAsync()
+    {
         await getQuizCategoryQuestionList();
+        await getQuestionList();
 
     }
 
-    async Task getQuizCategoryQuestionList(int page = 1, int quantityPerPage = 7) {
+    async Task getQuizCategoryQuestionList(int page = 1, int quantityPerPage = 7)
+    {
         var httpResponse = await _http.GetAsync($"api/Question?page={page}&quantityPerPage={quantityPerPage}");
-        if (httpResponse.IsSuccessStatusCode) {
+        if (httpResponse.IsSuccessStatusCode)
+        {
             totalPageQuantity = int.Parse(httpResponse.Headers.GetValues("pagesQuantity").FirstOrDefault());
             var responseString = await httpResponse.Content.ReadAsStringAsync();
-            // quizList = await response.Content.ReadFromJsonAsync<List<AddQuizCategoryViewModel>>();
             questionList = JsonSerializer.Deserialize<List<QuestionViewModel>>(responseString,
                  new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-            foreach (var q in questionList) {
+            foreach (var q in questionList)
+            {
                 Debug.WriteLine(q.QuestionText);
             }
 
@@ -101,7 +108,8 @@
 
     }
 
-    private async Task SelectedPage(int page) {
+    private async Task SelectedPage(int page)
+    {
         currentPage = page;
         await getQuizCategoryQuestionList(page);
     }
