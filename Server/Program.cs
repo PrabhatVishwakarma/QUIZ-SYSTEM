@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSwaggerGen();
 // For entity Framework
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.UseDateOnlyTimeOnly()));
 
@@ -67,7 +68,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseRouting();
 
 
