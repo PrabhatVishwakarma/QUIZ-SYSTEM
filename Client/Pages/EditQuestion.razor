@@ -86,21 +86,39 @@
     protected async Task SaveQuestion()
     {
         question.IsCorrect = "";
+        List<string> selectedOptions = new List<string>();
+
+
+
         if (question.CheckBox1 == true)
         {
-            question.IsCorrect += question.OptionOne + " ";
+            selectedOptions.Add(question.OptionOne);
         }
         if (question.CheckBox2 == true)
         {
-            question.IsCorrect += " " + question.OptionTwo + " ";
+            selectedOptions.Add(question.OptionTwo);
         }
         if (question.CheckBox3 == true)
         {
-            question.IsCorrect += " " + question.OptionThree + " ";
+            selectedOptions.Add(question.OptionThree);
         }
         if (question.CheckBox4 == true)
         {
-            question.IsCorrect += " " + question.OptionFour + " ";
+            selectedOptions.Add(question.OptionFour);
+        }
+        for (int i = 0; i < selectedOptions.Count; i++)
+        {
+
+
+
+            question.IsCorrect += selectedOptions[i];
+            if (i != selectedOptions.Count - 1)
+            {
+                question.IsCorrect += ",";
+            }
+
+
+
         }
         var response = await Http.PutAsJsonAsync("api/question/" + QuestionId, question);
         bool questionResponse = await response.Content.ReadFromJsonAsync<bool>();
