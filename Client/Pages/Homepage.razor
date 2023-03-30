@@ -42,8 +42,9 @@
                                 <td class="master-tablebody">Admin</td>
                                 <td class="master-tablebody">@q.Timer</td>
                                 <td class="master-tablebody">
-                                    <a href="/editquizcategory/@q.QuizId" class="btn"><i class="fa fa-edit"></i></a>
-                                    <a href="/addquestion/@q.QuizId" class="btn"><i class="fa-solid fa-circle-plus"></i></a>
+                                    <a href="/editquizcategory/@q.QuizId" class="btn" title="Edit Quiz Category"><i class="fa fa-edit"></i></a>
+                                    <a href="/addquestion/@q.QuizId" class="btn" title="Add Question"><i class="fa-solid fa-circle-plus"></i></a>
+
                                     @*                                    <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
                         *@
                                 </td>
@@ -107,6 +108,10 @@
     </div>
 </div>
 
+<Pagination TotalPagesQuantity="totalPageQuantity" CurrentPage="currentPage" Radius="2"
+            SelectedPage="SelectedPage"></Pagination>
+
+
 
 
 @code {
@@ -114,20 +119,31 @@
 
     bool flag = false;
     bool validResponse = false;
+    private int totalPageQuantity;
+    private int currentPage = 1;
 
-    async Task getQuizCategory()
-    {
-        var response = await _http.GetAsync("api/quiz/all");
-        response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
-        foreach (var q in quizList)
-        {
-            Debug.WriteLine(q.QuizTitle);
+    async Task getQuizCategory(int page = 1, int quantityPerPage = 5) {
+        var httpResponse = await _http.GetAsync($"api/quiz/all?page={page}&quantityPerPage={quantityPerPage}");
+        if (httpResponse.IsSuccessStatusCode) {
+
+            totalPageQuantity = int.Parse(httpResponse.Headers.GetValues("pagesQuantity").FirstOrDefault());
+            var responseString = await httpResponse.Content.ReadAsStringAsync();
+            quizList = JsonSerializer.Deserialize<List<QuizViewModel>>(responseString,
+                 new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+            foreach (var q in quizList) {
+                Debug.WriteLine(q.QuizTitle);
+            }
         }
     }
     protected override async Task OnInitializedAsync()
     {
         await getQuizCategory();
+    }
+
+    private async Task SelectedPage(int page) {
+        currentPage = page;
+        await getQuizCategory(page);
     }
 
     void EditQuiz()

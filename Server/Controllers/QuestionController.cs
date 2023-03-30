@@ -1,23 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Tool.Server.Helpers;
 using Tool.Server.Model;
 using Tool.Server.Services;
+using Tool.Shared.Models;
 
 [Route("api/[controller]")]
 [ApiController]
 public class QuestionController : ControllerBase
 {
     private readonly IQuestionService _questionService;
-
-    public QuestionController(IQuestionService questionService)
-    {
+    private readonly AppDbContext _context;
+    public QuestionController(AppDbContext context, IQuestionService questionService) {
+        _context = context;
         _questionService = questionService;
     }
 
+    //api/Question
     [HttpGet]
-    public async Task<List<Question>> GetAll()
-    {
-        return await _questionService.GetAllQuestion();
+    public async Task<ActionResult<List<Question>>> GetAll([FromQuery] PaginationDTO pagination) {
+        var queryable = _context.Questions.AsQueryable();
+        await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.QuantityPerPage);
+        return await queryable.Paginate(pagination).ToListAsync();
     }
 
     [HttpGet("{id}")]
