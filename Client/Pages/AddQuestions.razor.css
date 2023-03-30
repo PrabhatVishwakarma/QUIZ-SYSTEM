@@ -116,8 +116,6 @@ input[type="checkbox"] {
 /* Form Button */
 
 .button {
-    position: absolute;
-    right: 25px;
     width: 80px;
     height: 40px;
     padding: 5px;
@@ -128,6 +126,13 @@ input[type="checkbox"] {
     color: black;
     cursor: pointer;
     text-align: center;
+}
+
+.btn-back {
+    position: absolute;
+    right: 25px;
+    color: black;
+    cursor: pointer;
 }
 
 .form-actions {

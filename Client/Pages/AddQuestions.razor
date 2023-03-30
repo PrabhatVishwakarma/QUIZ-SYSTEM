@@ -8,8 +8,7 @@
 <div class="master p-4">
 <div class="Container-heading">
     <h2>Adding Question</h2>
-        <button type="button" class="button" @onclick=OnBackClick>Back</button>
-    @*<a class="btn-close" @onclick="OnCloseClick"></a>*@
+        <i class='fas fa-arrow-left btn-back' title="Back" @onclick=OnBackClick></i>
 </div>
 <div class="Container">
     <EditForm Model="@question" class="input-form" id="QuestionForm" OnValidSubmit="SaveQuestion">

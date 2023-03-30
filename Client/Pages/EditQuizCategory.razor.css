@@ -48,8 +48,6 @@
 }
 
 .button {
-    position: absolute;
-    right: 25px;
     width: 80px;
     height: 40px;
     padding: 5px;
@@ -179,6 +177,13 @@ th {
     height: 30px;
 }
 .btn-close {
+    position: absolute;
+    right: 25px;
+    color: black;
+    cursor: pointer;
+}
+
+.btn-back {
     position: absolute;
     right: 25px;
     color: black;
