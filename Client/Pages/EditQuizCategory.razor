@@ -36,10 +36,10 @@
                             <td class="master-tablebody" style="text-align: center;">@index</td>
                             <td class="master-tablebody">@q.QuestionText</td>
                             <td class="master-tablebody">@q.IsCorrect</td>
-                            <td class="master-tablebody" style="text-align: center;">
-                                <button type="button" class="btn"><a style="color: black; padding:0" href="/editquestion/@q.QuestionId"><i class="fa fa-edit"></i></a></button>
-                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionToDelete = q.QuestionId; serialNo = index; }"><i class="fa-regular fa-trash-can"></i></button>
-                            </td>
+                             <td class="master-tablebody " style="text-align: center;">
+                                <button type="button" class="btn"><a  style="color: black; padding:0" title="Edit Question" href="/editquestion/@q.QuestionId"><i class="fa fa-edit"></i></a></button>
+                                <button type="button" class="btn" data-bs-toggle="modal" title="Delete Question" data-bs-target="#deleteQuizCategoryModal" @onclick="(e) => { questionToDelete = q.QuestionId; serialNo = index; }"><i class="fa-regular fa-trash-can"></i></button>
+                                </td>
                         </tr>
                     }
                     @*Delete dialogue box*@
