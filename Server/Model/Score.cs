@@ -10,6 +10,9 @@ public class Score
     public int QuizId { get; set; }
     [ForeignKey("QuizId")]
     public int ObtainedScore { get; set; }
+    public string Id { get; set; }
+    [ForeignKey("Id")]
+    public User User { get; set; }
 
     //Navigation Properties
     public Quiz Quiz { get; set; }
