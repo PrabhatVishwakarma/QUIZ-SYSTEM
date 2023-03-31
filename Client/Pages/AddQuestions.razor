@@ -24,6 +24,7 @@
                 <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
             }
         </div>
+
         <div class="input-options form-input">
             <label for="option-one" class="checkbox-label">Option 1:</label>
             <input type="text" @bind-value="@question.OptionOne" required />
@@ -32,6 +33,7 @@
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
             }
             <input type="checkbox" id="option-one-checkbox" @bind="@question.CheckBox1" />
+            <em>&nbsp <b>Note :</b> Checkboxes is for correct option</em>
         </div>
 
         <div class="input-options form-input">
@@ -113,21 +115,39 @@
             return;
         }
 
+        List<string> selectedOptions = new List<string>();
+
+
+
         if (question.CheckBox1 == true)
         {
-            question.IsCorrect += question.OptionOne + " ";
+            selectedOptions.Add(question.OptionOne);
         }
         if (question.CheckBox2 == true)
         {
-            question.IsCorrect += " " + question.OptionTwo + " ";
+            selectedOptions.Add(question.OptionTwo);
         }
         if (question.CheckBox3 == true)
         {
-            question.IsCorrect += " " + question.OptionThree + " ";
+            selectedOptions.Add(question.OptionThree);
         }
         if (question.CheckBox4 == true)
         {
-            question.IsCorrect += " " + question.OptionFour + " ";
+            selectedOptions.Add(question.OptionFour);
+        }
+        for (int i = 0; i < selectedOptions.Count; i++)
+        {
+
+
+
+            question.IsCorrect += selectedOptions[i];
+            if (i != selectedOptions.Count - 1)
+            {
+                question.IsCorrect += ",";
+            }
+
+
+
         }
         // if question is not duplicate
         if (question.QuestionText != "" && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
@@ -156,21 +176,39 @@
             return;
         }
 
+        List<string> selectedOptions = new List<string>();
+
+
+
         if (question.CheckBox1 == true)
         {
-            question.IsCorrect += question.OptionOne + " ";
+            selectedOptions.Add(question.OptionOne);
         }
         if (question.CheckBox2 == true)
         {
-            question.IsCorrect += " " + question.OptionTwo + " ";
+            selectedOptions.Add(question.OptionTwo);
         }
         if (question.CheckBox3 == true)
         {
-            question.IsCorrect += " " + question.OptionThree + " ";
+            selectedOptions.Add(question.OptionThree);
         }
         if (question.CheckBox4 == true)
         {
-            question.IsCorrect += " " + question.OptionFour + " ";
+            selectedOptions.Add(question.OptionFour);
+        }
+        for (int i = 0; i < selectedOptions.Count; i++)
+        {
+
+
+
+            question.IsCorrect += selectedOptions[i];
+            if (i != selectedOptions.Count - 1)
+            {
+                question.IsCorrect += ",";
+            }
+
+
+
         }
         // if question is not duplicate
         if (question.QuestionText != "" && (question.CheckBox1 || question.CheckBox2 || question.CheckBox3 || question.CheckBox4))
