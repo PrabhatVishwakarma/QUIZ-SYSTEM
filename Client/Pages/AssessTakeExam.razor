@@ -66,6 +66,7 @@
     int minutes = 0;
     int seconds = 0;
     int hours = 0;
+    int score = 0;
     QuestionViewModel question = new QuestionViewModel();
     QuizViewModel quiz = new QuizViewModel();
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
@@ -80,6 +81,7 @@
         hours = minutes / 60;
         minutes = minutes % 60;
         seconds = 0;
+        score = 0;
         stopwatch.Start();
         await Task.Delay(TimeSpan.FromSeconds(1));
         await updateTime();
@@ -151,15 +153,36 @@
 
     protected void changeQuestionPrevious()
     {
-        if (questionIndex > 0) // fixed condition here
+        if (questionIndex > 0)
         {
             questionIndex--;
             serialNo--;
         }
     }
 
+
+    private void CalculateScore()
+    {
+        score = 0;
+        foreach (var q in questionList)
+        {
+            if (q.userAnswer1 == q.CheckBox1 &&
+                q.userAnswer2 == q.CheckBox2 &&
+                q.userAnswer3 == q.CheckBox3 &&
+                q.userAnswer4 == q.CheckBox4)
+            {
+                score++;
+            }
+           
+        }
+    }
+
+
     void submit()
     {
+        CalculateScore(); // Call CalculateScore to calculate the final score
+        JsRuntime.InvokeAsync<int>("alert", score);
         NavigationManager.NavigateTo("/quizresult");
     }
+
 }
