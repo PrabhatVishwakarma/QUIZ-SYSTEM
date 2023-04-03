@@ -183,6 +183,13 @@ th {
     cursor: pointer;
 }
 
+.btn-back {
+    position: absolute;
+    right: 25px;
+    color: black;
+    cursor: pointer;
+}
+
 .login-actions {
     width: 54%;
     margin: 12px;
