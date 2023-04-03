@@ -7,7 +7,7 @@
 <PageTitle>AddQuestions</PageTitle>
 <div class="master p-4">
 <div class="Container-heading">
-    <h2>Adding Question</h2>
+    <h2>Add Question</h2>
         <i class='fas fa-arrow-left btn-back' title="Back" @onclick=OnBackClick></i>
 </div>
 <div class="Container">
@@ -18,7 +18,7 @@
         </div>
         <div class="Question-text form-input">
             <label for="question-text">Question Text:</label>
-<textarea @bind="@question.QuestionText" required></textarea>
+            <textarea @bind="@question.QuestionText" required></textarea>
             @if ((string.IsNullOrEmpty(@question.QuestionText) || string.IsNullOrWhiteSpace(@question.QuestionText)) && flag)
             {
                 <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
