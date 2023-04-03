@@ -33,6 +33,12 @@ namespace Tool.Shared
         public bool CheckBox3 { get; set; }
         public bool CheckBox4 { get; set; }
 
+
+        public bool userAnswer1 { get; set; } = false;
+        public bool userAnswer2 { get; set; } = false;
+        public bool userAnswer3 { get; set; } = false;
+        public bool userAnswer4 { get; set; } = false;
+
         public QuizViewModel Quiz { get; set; }
 
         public string IsCorrect { get; set; }

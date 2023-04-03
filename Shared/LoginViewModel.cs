@@ -10,16 +10,12 @@ namespace Tool.Shared
 {
     public class LoginViewModel
     {
-        public int UserId
-        {
-            get;
-            set;
-        }
+        
         [Required]
         [EmailAddress]
         [RegularExpression(".*@persistent\\.com$",
     ErrorMessage = "Email must contain @persistent.com")]
-        public string Email
+        public string? Email
         {
             get;
             set;
@@ -29,7 +25,7 @@ namespace Tool.Shared
         [Display(Name = "Password")]
         [RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$",
             ErrorMessage = "Passwords must be at least 8 characters and contain the following: upper case (A-Z), lower case (a-z), number (0-9) and special character (e.g. !@#$%^&*)")]
-        public string Password
+        public string? Password
         {
             get;
             set;

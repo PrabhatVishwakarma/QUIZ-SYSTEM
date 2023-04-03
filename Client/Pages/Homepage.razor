@@ -139,6 +139,7 @@
     protected override async Task OnInitializedAsync()
     {
         await getQuizCategory();
+        
     }
 
     private async Task SelectedPage(int page) {
@@ -184,9 +185,12 @@
         }
     }
 
-    void Logout()
+    protected async Task Logout()
     {
+    {
+        await AuthService.Logout();
         NavigationManager.NavigateTo("/");
+    }
     }
 
 

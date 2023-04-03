@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -18,12 +19,18 @@ builder.Services.AddSwaggerGen();
 // For entity Framework
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.UseDateOnlyTimeOnly()));
 
+//For JWT
+
+
+
 // For DI registration
 builder.Services.AddTransient<IRepository<Question>, QuestionRepository>();
 builder.Services.AddTransient<IQuestionService, QuestionService>();
 
-builder.Services.AddTransient<IRepository<User>, UserRepository>();
-builder.Services.AddTransient<IUserService, UserService>();
+
+
+builder.Services.AddTransient<IRepository<Quiz>, QuizRepository>();
+builder.Services.AddTransient<IQuizService, QuizService>();
 
 builder.Services.AddControllersWithViews()
  .AddNewtonsoftJson(options =>
@@ -31,8 +38,10 @@ builder.Services.AddControllersWithViews()
 );
 
 
-builder.Services.AddTransient<IRepository<Quiz>, QuizRepository>();
-builder.Services.AddTransient<IQuizService, QuizService>();
+
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -41,9 +50,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidAudience = builder.Configuration["JwtAudience"],
+        ValidIssuer = builder.Configuration["JwtIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSecurityKey"]))
     };
 });
 
