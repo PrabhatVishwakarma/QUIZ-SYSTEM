@@ -30,10 +30,10 @@
                     <option value="@quiz.QuizId">@quiz.QuizTitle</option>
                 }
             </select>
-                @if (ShowError)
-                {
-                    <h3 class="alert-danger"> <em>Selected Quiz is Empty</em></h3>
-                }
+               @if(flag == true)
+                {
+                  <div class="text-danger"><h6>Please select a valid quiz category!</h6></div> 
+                }
         </div>
 
     </div>
@@ -48,6 +48,7 @@
     [Parameter]
     public int QuizId { get; set; }
     public bool ShowError = false;
+    public bool flag = false;
 
 
 
@@ -68,7 +69,7 @@
         }
         else
         {
-            ShowError = true;
+            this.flag = true;
         }
     }
 

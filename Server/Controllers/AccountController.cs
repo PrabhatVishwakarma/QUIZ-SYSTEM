@@ -29,11 +29,11 @@ namespace Tool.Server.Controllers
                 return Ok(new RegisterResult { Successful = false, Errors = errors });
 
             }
-            await _userManager.AddToRoleAsync(newUser, "User");
-            if (newUser.Email.StartsWith("admin"))
-            {
-                await _userManager.AddToRoleAsync(newUser, "Admin");
-            }
+            //await _userManager.AddToRoleAsync(newUser, "User");
+            //if (newUser.Email.StartsWith("admin"))
+            //{
+            //    await _userManager.AddToRoleAsync(newUser, "Admin");
+            //}
 
             return Ok(new RegisterResult { Successful = true });
         }
