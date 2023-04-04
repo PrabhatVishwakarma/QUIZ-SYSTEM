@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tool.Server.Model
 {
-    [Table("User", Schema = "dbo")]
     public class User : IdentityUser
     {
         public User()

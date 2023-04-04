@@ -9,9 +9,6 @@ namespace Tool.Server.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "dbo");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -31,6 +28,14 @@ namespace Tool.Server.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserSummary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    UpdatedBy = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -183,30 +188,6 @@ namespace Tool.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserSummary = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_User_AspNetUsers_Id",
-                        column: x => x.Id,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
@@ -285,17 +266,16 @@ namespace Tool.Server.Migrations
                 {
                     table.PrimaryKey("PK_Scores", x => x.ScoreId);
                     table.ForeignKey(
+                        name: "FK_Scores_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Scores_Quizs_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizs",
                         principalColumn: "QuizId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Scores_User_Id",
-                        column: x => x.Id,
-                        principalSchema: "dbo",
-                        principalTable: "User",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -385,6 +365,11 @@ namespace Tool.Server.Migrations
                 {
                     table.PrimaryKey("PK_QuizTakens", x => x.QuizTakenId);
                     table.ForeignKey(
+                        name: "FK_QuizTakens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_QuizTakens_Quizs_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizs",
@@ -395,12 +380,6 @@ namespace Tool.Server.Migrations
                         principalTable: "Scores",
                         principalColumn: "ScoreId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_QuizTakens_User_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "dbo",
-                        principalTable: "User",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -535,14 +514,10 @@ namespace Tool.Server.Migrations
                 name: "Questions");
 
             migrationBuilder.DropTable(
-                name: "User",
-                schema: "dbo");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Quizs");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }
