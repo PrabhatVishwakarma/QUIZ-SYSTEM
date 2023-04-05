@@ -32,6 +32,11 @@ builder.Services.AddTransient<IQuestionService, QuestionService>();
 builder.Services.AddTransient<IRepository<Quiz>, QuizRepository>();
 builder.Services.AddTransient<IQuizService, QuizService>();
 
+builder.Services.AddTransient<IRepository<Score>, ScoreRepository>();
+builder.Services.AddTransient<IScoreService, ScoreService>();
+
+
+
 builder.Services.AddControllersWithViews()
  .AddNewtonsoftJson(options =>
  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
