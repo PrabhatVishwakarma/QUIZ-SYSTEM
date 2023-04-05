@@ -29,7 +29,7 @@ namespace Tool.Server.Controllers
                 var errors = result.Errors.Select(x => x.Description);
 
                 return Ok(new RegisterResult { Successful = false, Errors = errors });
-          
+            }
             if (!await _roleManager.RoleExistsAsync("USER"))
             {
                 var role = new IdentityRole("USER");
@@ -49,7 +49,6 @@ namespace Tool.Server.Controllers
             {
                 await _userManager.AddToRoleAsync(newUser, "User");
             }
-
 
             return Ok(new RegisterResult { Successful = true });
         }
