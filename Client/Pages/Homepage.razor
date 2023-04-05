@@ -86,15 +86,19 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="modal-footer">
                     @if (!validResponse)
                     {
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
                         <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
-                        @if (flag && quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
-                        {
-                            <div class="text-danger"><h5>A quiz category with that name already exists.</h5></div>
-                        }
+                        <br />
+                        <div class="xyx">
+                            @if (flag && quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
+                            {
+                                <div class="text-danger"><h5> <b>@quiz.QuizTitle</b> is already exists.</h5></div>
+                            }
+                        </div>
                     }
                     else
                     {
