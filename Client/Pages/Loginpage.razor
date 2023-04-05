@@ -65,23 +65,7 @@
     }
 
     protected async Task Login()
-    {@*var response = await Http.PostAsJsonAsync("api/loginModel", @loginModel);
-        bool loginResponse = await response.Content.ReadFromJsonAsync<bool>();
-        if (loginResponse)
-        {
-            if (loginModel.Email.Contains("assess@persistent.com") || loginModel.Email.Contains("Assess@persistent.com") || loginModel.Email.Contains("ASSESS@PERSISTENT.COM"))
-            {
-                NavigationManager.NavigateTo("/assesshomepage");
-            }
-            else if (loginModel.Email.Contains("admin@persistent.com") || loginModel.Email.Contains("Admin@persistent.com") || loginModel.Email.Contains("ADMIN@PERSISTENT.COM"))
-            {
-                NavigationManager.NavigateTo("/homepage");
-            }
-            else
-            {
-                showError = true;
-            }
-        }*@
+    {
         showErrors = false;
         var result = await AuthService.Login(loginModel);
 

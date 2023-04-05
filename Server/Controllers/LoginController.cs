@@ -16,7 +16,7 @@ namespace Tool.Server.Controllers
         private readonly IConfiguration _configuration;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public LoginController(IConfiguration configuration,SignInManager<IdentityUser> signInManager)
+        public LoginController(IConfiguration configuration, SignInManager<IdentityUser> signInManager)
         {
             _configuration = configuration;
             _signInManager = signInManager;
@@ -25,14 +25,21 @@ namespace Tool.Server.Controllers
         public async Task<IActionResult> Login([FromBody] LoginViewModel login)
         {
             var result = await _signInManager.PasswordSignInAsync(login.Email!, login.Password!, false, false);
-           
 
             if (!result.Succeeded) return BadRequest(new LoginResult { Successful = false, Error = "Username and password are invalid." });
 
-            var claims = new[]
+            var user = await _signInManager.UserManager.FindByEmailAsync(login.Email!);
+            var roles = await _signInManager.UserManager.GetRolesAsync(user);
+
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, login.Email!)
+    };
+
+            foreach (var role in roles)
             {
-            new Claim(ClaimTypes.Name, login.Email!)
-        };
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -48,5 +55,6 @@ namespace Tool.Server.Controllers
 
             return Ok(new LoginResult { Successful = true, Token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
+
     }
 }
