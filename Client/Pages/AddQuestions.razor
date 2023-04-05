@@ -8,7 +8,7 @@
 <div class="master p-4">
 <div class="Container-heading">
     <h2>Adding Question</h2>
-    <a class="close" @onclick="OnCloseClick"><i class="fa-solid fa-arrow-left fa-2xl" style="color: #000000;"></i></a>
+        <i class='fas fa-arrow-left btn-back' title="Back" @onclick=OnBackClick></i>
 </div>
 <div class="Container">
     <EditForm Model="@question" class="input-form" id="QuestionForm" OnValidSubmit="SaveQuestion">
@@ -226,14 +226,14 @@
             this.isDuplicate = false;
         }
     }
-    private void OnCloseClick()
+    private void OnBackClick()
     {
         NavigationManager.NavigateTo("/homepage");
     }
 
     private void Cancel()
     {
-        OnCloseClick();
+        OnBackClick();
     }
     async Task getQuizTitle()
     {

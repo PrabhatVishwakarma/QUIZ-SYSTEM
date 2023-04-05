@@ -114,7 +114,18 @@ input[type="checkbox"] {
 
 /* Form Button */
 
-
+.button {
+    width: 80px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 6px;
+    border: solid 1px;
+    background-color: #fd5f07;
+    color: black;
+    cursor: pointer;
+    text-align: center;
+}
 
 .Form-actions {
     width: 60%;
@@ -142,7 +153,12 @@ input[type="checkbox"] {
     color: #fff;
 }
 
-
+.btn-back {
+    position: absolute;
+    right: 25px;
+    color: black;
+    cursor: pointer;
+}
 
 input[type="time" i] {
     align-items: center;
