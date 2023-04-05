@@ -38,5 +38,9 @@ namespace Tool.Server.Repository
         {
             throw new NotImplementedException();
         }
+
+        public Task<Quiz> GetByIdAsync(int quizId, string userId) {
+            throw new NotImplementedException();
+        }
     }
 }
