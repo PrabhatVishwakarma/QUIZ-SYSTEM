@@ -47,17 +47,15 @@
         var response1 = await _Http.GetAsync("api/quiz/" + QuizId);
         response1.EnsureSuccessStatusCode();
         quiz = await response1.Content.ReadFromJsonAsync<QuizViewModel>();
-        //var response2 = await _Http.GetAsync("api/score/" + QuizId + Id);
-        //response2.EnsureSuccessStatusCode();
-        //score = await response2.Content.ReadFromJsonAsync<ScoreViewModel>();
-        
     }
+
     //async Task getScores()
     //{
     //    var response = await _Http.GetAsync("api/score/" + QuizId + Id);
     //    response.EnsureSuccessStatusCode();
     //    score = await response.Content.ReadFromJsonAsync<ScoreViewModel>();
     //}
+
     void Exit()
     {
         NavigationManager.NavigateTo("/");

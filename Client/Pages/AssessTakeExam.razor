@@ -183,7 +183,6 @@
     {
         CalculateScore(); // Call CalculateScore to calculate the final score
         JsRuntime.InvokeAsync<int>("alert", score);
-
         //var response = await _Http.PostAsJsonAsync("api/score",scores);
         //response.EnsureSuccessStatusCode();
         NavigationManager.NavigateTo("/quizresult/" + QuizId);
