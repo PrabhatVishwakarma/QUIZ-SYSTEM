@@ -25,6 +25,7 @@
                 <br /> <div class="text-danger"><h6>Question field can not be empty !</h6></div>
             }
         </div>
+            <div style="margin:20px"><em>&nbsp <b>Note :</b> Checkboxes is for correct option</em></div>
         <div class="input-options form-input">
             <label for="option1" class="checkbox-label"><b>Option 1 : </b></label>
             <input type="text" id="option1" name="option1" @bind="@question.OptionOne" required>
@@ -32,8 +33,8 @@
             {
                 <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
             }
-            <input type="checkbox" id="option-one-checkbox" @bind="@question.CheckBox1" />
-            <em>&nbsp <b>Note :</b> Checkboxes is for correct option</em>
+              
+            <input type="checkbox" id="option-one-checkbox" @bind="@question.CheckBox1" />          
            
         </div>
         <div class="input-options form-input">
