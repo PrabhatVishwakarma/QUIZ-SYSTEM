@@ -6,6 +6,7 @@
     public Task<List<T>> GetAllAsync();
     public Task<T> GetByIdAsync(int Id);
     public Task DeleteAsync(int id);
-
+    public Task<T> GetByIdAsync(int quizId, string userId);
+   
 }
 
