@@ -86,6 +86,12 @@
                         </div>
                     </form>
                 </div>
+                <div class="duplicate-category">
+                    @if (flag && quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
+                    {
+                        <div class="text-danger"><h5> <b>@quiz.QuizTitle</b> is already exists.</h5></div>
+                    }
+                </div>
 
                 <div class="modal-footer">
                     @if (!validResponse)
@@ -93,12 +99,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Cancel">Close</button>
                         <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
                         <br />
-                        <div class="xyx">
-                            @if (flag && quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
-                            {
-                                <div class="text-danger"><h5> <b>@quiz.QuizTitle</b> is already exists.</h5></div>
-                            }
-                        </div>
+                        
                     }
                     else
                     {
@@ -106,6 +107,7 @@
                         <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
                     }
                 </div>
+               
 
             </EditForm>
         </div>
