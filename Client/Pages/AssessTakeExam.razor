@@ -176,16 +176,16 @@
             }
 
         }
-        scores.ObtainedScore = score;
-    }
 
+    }
 
     async Task submit()
     {
         CalculateScore(); // Call CalculateScore to calculate the final score
         JsRuntime.InvokeAsync<int>("alert", score);
-        var response = await _Http.PostAsJsonAsync("api/score",scores);
-        response.EnsureSuccessStatusCode();
+
+        //var response = await _Http.PostAsJsonAsync("api/score",scores);
+        //response.EnsureSuccessStatusCode();
         NavigationManager.NavigateTo("/quizresult/" + QuizId);
     }
 

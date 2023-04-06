@@ -13,13 +13,13 @@
         <h5>Score: @score?.ObtainedScore</h5>
         <br />
         <h5>
-            Result: @if (@score?.ObtainedScore > 70)
+            Result: 
+            @if(@score?.ObtainedScore > 70)
             {
                 <b>Pass</b>
-            }
-            esle
+            }else
             {
-                 <b>Fail</b>
+                <b>Fail</b>
             }
         </h5>
     </div>
@@ -47,9 +47,9 @@
         var response1 = await _Http.GetAsync("api/quiz/" + QuizId);
         response1.EnsureSuccessStatusCode();
         quiz = await response1.Content.ReadFromJsonAsync<QuizViewModel>();
-        var response2 = await _Http.GetAsync("api/score/" + QuizId + Id);
-        response2.EnsureSuccessStatusCode();
-        score = await response2.Content.ReadFromJsonAsync<ScoreViewModel>();
+        //var response2 = await _Http.GetAsync("api/score/" + QuizId + Id);
+        //response2.EnsureSuccessStatusCode();
+        //score = await response2.Content.ReadFromJsonAsync<ScoreViewModel>();
         
     }
     //async Task getScores()
