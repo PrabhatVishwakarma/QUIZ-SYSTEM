@@ -48,5 +48,9 @@ namespace Tool.Server.Repository
                 await _dbContext.SaveChangesAsync();
             }
         }
+
+        public Task<Question> GetByIdAsync(int quizId, string userId) {
+            throw new NotImplementedException();
+        }
     }
 }
