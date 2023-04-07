@@ -29,9 +29,9 @@ namespace Tool.Server.Controllers {
 
         
         // POST: api/ScoreController
-        [HttpPost]
+        [HttpPost("{quizId}/{userId}")]
         public async Task<ActionResult<Score>> PostScore([FromBody] Score score) {
-            var quiz = await _Context.Quizs.FindAsync(score.QuizId);
+            var quiz = await _Context.Quizs.FindAsync(score.QuizId, score.Id);
             if (quiz == null) {
                 return NotFound("Quiz not found.");
             }

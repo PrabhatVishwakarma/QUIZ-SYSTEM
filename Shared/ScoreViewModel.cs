@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Tool.Shared
         public int ScoreId { get; set; }
         public int QuizId { get; set; }
         public int ObtainedScore { get; set; }
-        public string Id { get; set; }
+        public IdentityUser Id { get; set; }
 
     }
 }

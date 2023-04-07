@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Tool.Server.Model;
 using Tool.Shared;
 
 namespace Tool.Server.Controllers
@@ -53,7 +54,7 @@ namespace Tool.Server.Controllers
                 signingCredentials: creds
             );
 
-            return Ok(new LoginResult { Successful = true, Token = new JwtSecurityTokenHandler().WriteToken(token) });
+            return Ok(new LoginResult { Successful = true, Token = new JwtSecurityTokenHandler().WriteToken(token) , UserId = user.Id});
         }
 
     }
