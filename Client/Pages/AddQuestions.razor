@@ -30,22 +30,23 @@
         <div class="input-options form-input">
             <label for="option-one" class="checkbox-label">Option 1:</label>
             <input type="text" @bind-value="@question.OptionOne" required />
-            @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)) && flag)
-            {
-                <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
-            }
-            <input type="checkbox" id="option-one-checkbox" @bind="@question.CheckBox1" />
            
+            <input type="checkbox" id="option-one-checkbox" @bind="@question.CheckBox1" />
+                @if ((string.IsNullOrEmpty(@question.OptionOne) || string.IsNullOrWhiteSpace(@question.OptionOne)) && flag)
+                {
+                    <br /> <div class="text-danger"><h6> Option field can not be empty !</h6></div> <br />
+                }
         </div>
 
         <div class="input-options form-input">
             <label for="option-two" class="checkbox-label">Option 2:</label>
             <input type="text" @bind-value="@question.OptionTwo" required />
-            @if ((string.IsNullOrEmpty(@question.OptionTwo) || string.IsNullOrWhiteSpace(@question.OptionTwo)) && flag)
-            {
-                <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
-            }
+          
             <input type="checkbox" id="option-two-checkbox" @bind="@question.CheckBox2" />
+                @if ((string.IsNullOrEmpty(@question.OptionTwo) || string.IsNullOrWhiteSpace(@question.OptionTwo)) && flag)
+                {
+                    <br /> <div class="text-danger"><h6>Option field can not be empty !</h6></div> <br />
+                }
         </div>
         <div class="input-options form-input">
             <label for="option-three" class="checkbox-label">Option 3:</label>
