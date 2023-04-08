@@ -69,6 +69,7 @@
     int score = 0;
     QuestionViewModel question = new QuestionViewModel();
     QuizViewModel quiz = new QuizViewModel();
+    ScoreViewModel scores = new ScoreViewModel();
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
     private int serialNo;
     protected int questionIndex = 0;
@@ -173,16 +174,18 @@
             {
                 score++;
             }
-           
+
         }
+
     }
 
-
-    void submit()
+    async Task submit()
     {
         CalculateScore(); // Call CalculateScore to calculate the final score
         JsRuntime.InvokeAsync<int>("alert", score);
-        NavigationManager.NavigateTo("/quizresult");
+        //var response = await _Http.PostAsJsonAsync("api/score",scores);
+        //response.EnsureSuccessStatusCode();
+        NavigationManager.NavigateTo("/quizresult/" + QuizId);
     }
 
 }
