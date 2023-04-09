@@ -1,5 +1,6 @@
-﻿@page "/quizresult"
+﻿@page "/quizresult/{QuizId:int}"
 @using System.Diagnostics;
+@using System.Text.Json;
 @using Tool.Shared
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
@@ -7,12 +8,15 @@
 
 <div class="container">
     <div class="container-heading">
-        Quiz Category :  <b>@quizList.FirstOrDefault()?.QuizTitle</b>
+        Quiz Category: @quiz.QuizTitle
     </div>
     <div class="Content">
-        <h5>Score:</h5>
+        <h5>Score: @score.ObtainedScore</h5>
         <br />
-        <h5>Result: </h5>
+        <h5>
+            Result:
+            
+        </h5>
     </div>
     <div class="login-actions">
         <button class="btn" @onclick="Exit">Exit</button>
@@ -20,23 +24,38 @@
 </div>
 
 @code {
-    List<QuizViewModel> quizList = new List<QuizViewModel>();
+    [Parameter]
+    public int QuizId { get; set; }
+    [Parameter]
+    public string Id { get; set; }
+    ScoreViewModel score = new ScoreViewModel();
+     QuizViewModel quiz = new QuizViewModel();
 
     protected override async Task OnInitializedAsync()
     {
-        await getQuizCategory();
+        await getQuizTitle();
+        var userId = JsonSerializer.Deserialize<string>(await JsRuntime.InvokeAsync<string>("localStorage.getItem", "userId"));
+        await getScores(QuizId, userId);
     }
 
-    async Task getQuizCategory()
+
+    async Task getScores(int quizId, string userId)
     {
-        var response = await _Http.GetAsync("api/quiz");
+        var response = await _Http.GetAsync($"api/score/{quizId}/{userId}");
         response.EnsureSuccessStatusCode();
-        quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
-        foreach (var q in quizList)
-        {
-            Debug.WriteLine(q.QuizTitle);
-        }
+
+        score = await response.Content.ReadFromJsonAsync<ScoreViewModel>();
     }
+
+    async Task getQuizTitle()
+    {
+        var response = await _Http.GetAsync("api/quiz/" + QuizId);
+        response.EnsureSuccessStatusCode();
+        quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
+
+    }
+
+
     void Exit()
     {
         NavigationManager.NavigateTo("/");

@@ -48,17 +48,21 @@ namespace Tool.Client.Service
             }
 
             await _localStorage.SetItemAsync("authToken", loginResult!.Token);
+            await _localStorage.SetItemAsync("userId", loginResult!.UserId); // Store the user ID in local storage
             ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.Email!);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.Token);
 
             return loginResult;
         }
 
+
         public async Task Logout()
         {
             await _localStorage.RemoveItemAsync("authToken");
+            await _localStorage.RemoveItemAsync("userId"); // Remove the user ID from local storage
             ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
             _httpClient.DefaultRequestHeaders.Authorization = null;
         }
+
     }
 }

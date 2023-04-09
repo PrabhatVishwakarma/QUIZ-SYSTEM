@@ -52,7 +52,9 @@
 
 
 @code {
-   private LoginViewModel loginModel = new LoginViewModel();
+    [Parameter]
+    public string userId{ get; set; }
+    private LoginViewModel loginModel = new LoginViewModel();
     private bool showErrors;
     private string Error = "";
 
@@ -61,7 +63,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
+
     }
 
     protected async Task Login()
@@ -71,6 +73,7 @@
 
         if (result.Successful)
         {
+            userId = result.UserId;
             NavigationManager.NavigateTo("/homepage");
         }
         else
