@@ -1,5 +1,6 @@
 ﻿@page "/quizresult/{QuizId:int}"
 @using System.Diagnostics;
+@using System.Text.Json;
 @using Tool.Shared
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
@@ -7,20 +8,14 @@
 
 <div class="container">
     <div class="container-heading">
-        Quiz Category : @quiz?.QuizTitle 
+        Quiz Category: @quiz.QuizTitle
     </div>
     <div class="Content">
-        <h5>Score: @score?.ObtainedScore</h5>
+        <h5>Score: @score.ObtainedScore</h5>
         <br />
         <h5>
-            Result: 
-            @if(@score?.ObtainedScore > 70)
-            {
-                <b>Pass</b>
-            }else
-            {
-                <b>Fail</b>
-            }
+            Result:
+            
         </h5>
     </div>
     <div class="login-actions">
@@ -31,30 +26,35 @@
 @code {
     [Parameter]
     public int QuizId { get; set; }
+    [Parameter]
     public string Id { get; set; }
     ScoreViewModel score = new ScoreViewModel();
-    QuizViewModel quiz = new QuizViewModel();
+     QuizViewModel quiz = new QuizViewModel();
 
     protected override async Task OnInitializedAsync()
     {
-        await getQuiz();
-        //await getScores();
-        
+        await getQuizTitle();
+        var userId = JsonSerializer.Deserialize<string>(await JsRuntime.InvokeAsync<string>("localStorage.getItem", "userId"));
+        await getScores(QuizId, userId);
     }
 
-    async Task getQuiz()
+
+    async Task getScores(int quizId, string userId)
     {
-        var response1 = await _Http.GetAsync("api/quiz/" + QuizId);
-        response1.EnsureSuccessStatusCode();
-        quiz = await response1.Content.ReadFromJsonAsync<QuizViewModel>();
+        var response = await _Http.GetAsync($"api/score/{quizId}/{userId}");
+        response.EnsureSuccessStatusCode();
+
+        score = await response.Content.ReadFromJsonAsync<ScoreViewModel>();
     }
 
-    //async Task getScores()
-    //{
-    //    var response = await _Http.GetAsync("api/score/" + QuizId + Id);
-    //    response.EnsureSuccessStatusCode();
-    //    score = await response.Content.ReadFromJsonAsync<ScoreViewModel>();
-    //}
+    async Task getQuizTitle()
+    {
+        var response = await _Http.GetAsync("api/quiz/" + QuizId);
+        response.EnsureSuccessStatusCode();
+        quiz = await response.Content.ReadFromJsonAsync<QuizViewModel>();
+
+    }
+
 
     void Exit()
     {

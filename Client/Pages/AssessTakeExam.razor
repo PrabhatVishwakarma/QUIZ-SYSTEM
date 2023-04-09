@@ -1,7 +1,9 @@
 ﻿@page "/assesstakeexam/{QuizId:int}"
 @using System.Linq
 @using System.Diagnostics;
+@using System.Text.Json;
 @using Tool.Shared
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject IJSRuntime JsRuntime
 @inject HttpClient Http
 @inject HttpClient _Http
@@ -62,6 +64,7 @@
 @code {
     [Parameter]
     public int QuizId { get; set; }
+
     Stopwatch stopwatch = new Stopwatch();
     int minutes = 0;
     int seconds = 0;
@@ -86,6 +89,7 @@
         stopwatch.Start();
         await Task.Delay(TimeSpan.FromSeconds(1));
         await updateTime();
+
     }
 
     async Task updateTime()
@@ -176,15 +180,19 @@
             }
 
         }
-
+        scores.ObtainedScore = score;
     }
+
+
 
     async Task submit()
     {
         CalculateScore(); // Call CalculateScore to calculate the final score
-        JsRuntime.InvokeAsync<int>("alert", score);
-        //var response = await _Http.PostAsJsonAsync("api/score",scores);
-        //response.EnsureSuccessStatusCode();
+        scores.QuizId = QuizId;
+        scores.Id = JsonSerializer.Deserialize<String>(await JsRuntime.InvokeAsync<string>("localStorage.getItem", "userId"));
+        var response = await _Http.PostAsJsonAsync("api/score",scores);
+        response.EnsureSuccessStatusCode();
+        JsRuntime.InvokeVoidAsync("console.log", response);
         NavigationManager.NavigateTo("/quizresult/" + QuizId);
     }
 

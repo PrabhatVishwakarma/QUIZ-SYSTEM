@@ -21,6 +21,27 @@ namespace Tool.Server.Controllers {
 
 
         // GET: api/ScoreController/5
+        [HttpGet("{scoreId}")]
+        public async Task<ActionResult<Score>> GetScore(int scoreId)
+        {
+            var score = await _Context.Scores
+                .Include(s => s.User)
+                .Include(s => s.Quiz)
+                .FirstOrDefaultAsync(s => s.ScoreId == scoreId);
+
+            if (score == null)
+            {
+                return NotFound("Score not found.");
+            }
+
+            return Ok(score);
+        }
+
+
+
+
+
+        // GET: api/ScoreController/5
         [HttpGet("{quizId}/{userId}")]
         public async Task<ActionResult<Score>> GetScore(int quizId,string userId) 
         {
@@ -29,9 +50,9 @@ namespace Tool.Server.Controllers {
 
         
         // POST: api/ScoreController
-        [HttpPost("{quizId}/{userId}")]
+        [HttpPost]
         public async Task<ActionResult<Score>> PostScore([FromBody] Score score) {
-            var quiz = await _Context.Quizs.FindAsync(score.QuizId, score.Id);
+            var quiz = await _Context.Quizs.FindAsync(score.QuizId);
             if (quiz == null) {
                 return NotFound("Quiz not found.");
             }

@@ -13,7 +13,7 @@ namespace Tool.Shared
         public int ScoreId { get; set; }
         public int QuizId { get; set; }
         public int ObtainedScore { get; set; }
-        public IdentityUser Id { get; set; }
+        public string Id { get; set; }
 
     }
 }
