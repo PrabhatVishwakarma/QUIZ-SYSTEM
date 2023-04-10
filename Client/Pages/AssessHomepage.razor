@@ -1,8 +1,15 @@
 ﻿@page "/assesshomepage"
 @using System.Diagnostics;
+@using Microsoft.AspNetCore.Authorization
 @using Tool.Shared
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = "USER")]
+
+
+
+<AuthorizeView Roles="User">
+    <Authorized>
 
 <PageTitle>Quiz Instructions</PageTitle>
 <div class="master p-4">
@@ -41,7 +48,13 @@
         <button type="button" @onclick="@Cancel" class="btn">Cancel</button>
         <button type="button" @onclick="@TakeQuiz" class="btn active">Take Quiz</button>
     </div>
-</div></div>
+</div>
+</div>
+</Authorized>
+    <NotAuthorized Roles="Admin">
+        <p>You are nit authorized.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
 

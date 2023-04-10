@@ -1,13 +1,14 @@
 ﻿@page "/editquizcategory/{QuizId:int}"
 @using System.Diagnostics;
 @using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
 @using Tool.Shared;
 @inject HttpClient _httpClient
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@attribute [Authorize(Roles = "Admin")]
 <PageTitle>EditQuizCategory</PageTitle>
-
 
 
 <div class="master p-4">

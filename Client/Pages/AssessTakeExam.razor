@@ -1,15 +1,28 @@
 ﻿@page "/assesstakeexam/{QuizId:int}"
 @using System.Linq
 @using System.Diagnostics;
+@using Microsoft.AspNetCore.Authorization
 @using Tool.Shared
 @inject IJSRuntime JsRuntime
 @inject HttpClient Http
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
 @using Tool.Client.Components
-
+@attribute [Authorize(Roles = "User")]
+<Unauthorize !Role ="Admin">
+            <p>Sorry don't try to hack this site you are not authorized User!</p>
+</Unauthorize>
 <div class="container">
     <div class="sidebar">
+        <AuthorizeView>
+        <Authorized>
+        <p>You are already logged in.</p>
+        <p><a href="/dashboard">Go to Dashboard</a></p>
+        </Authorized>
+        <NotAuthorized>
+        <p>You are not authorized user please login for access.</p>
+        </NotAuthorized>
+        </AuthorizeView>
         <h2>Questions</h2>
         <ul>
             @for (int i = 0; i < questionList?.Count; i++)
@@ -44,6 +57,12 @@
             <button class=" btn" id="next" @onclick="changeQuestionNext">Next</button>
             <button class=" btn alert-danger" data-bs-toggle="modal" data-bs-target="#submitquizmodel">Finish</button>
         </div>
+        @*<Authorize Role ="Admin">
+            <p>You arean authoried User !</p>
+        </Authorize>
+        <Unauthorize !Role ="Admin">
+            <p>Sorry don't try to hack this site you are not authorized User!</p>
+        </Unauthorize>*@
     </div>
 </div>
 <div class="modal fade" id="submitquizmodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -55,7 +74,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn action-btn" data-bs-dismiss="modal">No</button>
                 <button type="button" data-bs-dismiss="modal" @onclick=submit class="btn action-btn alert-danger" id="submitquizButton1">Yes</button>
-            </div>
+            </div>            
         </div>
     </div>
 </div>

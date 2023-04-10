@@ -4,12 +4,33 @@
 @inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@*@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> _userManager*@
+
 
 <PageTitle>Tool Login</PageTitle>
     <div class="login-container">
     <div class="login-form">
+        @*<AuthorizeView>
+        <Authorized>
+        <p>You are already logged in.</p>
+        <p><a href="/dashboard">Go to Dashboard</a></p>
+        </Authorized>
+        <NotAuthorized>
+        <h1>Login</h1>
+        <form @onsubmit="Login">
+        <input type="text" bind="@loginModel.Email" />
+        <input type="password" bind="@loginModel.Password" />
+        <button type="submit">Login</button>
+        </form>
+        <p>You are not authorized user please login for access.</p>
+        </NotAuthorized>
+        </AuthorizeView>*@
         <EditForm Model="loginModel" OnValidSubmit="Login">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
+
                 <div class="form"
                 <div class="login-input-container">
                     <label for="email" class="login-input-label">Username</label>
@@ -67,10 +88,25 @@
     protected async Task Login()
     {
         showErrors = false;
-        var result = await AuthService.Login(loginModel);
+        var result = await AuthService.Login(loginModel);       
 
-        if (result.Successful)
-        {
+
+        if (result.Successful){
+//        if (_userManager.IsInRole(await _userManager.FindByNameAsync(loginModel.Email), "Admin"))
+//        {
+//            NavigationManager.NavigateTo("/admin");
+//        }
+//        else if (_userManager.IsInRole(await _userManager.FindByNameAsync(loginModel.Email), "User"))
+//        {
+//            NavigationManager.NavigateTo("/user");
+//        }
+//        }
+//        else
+//        {
+//            Error = "Invalid username or password.";
+//        }
+
+        
             NavigationManager.NavigateTo("/homepage");
         }
         else

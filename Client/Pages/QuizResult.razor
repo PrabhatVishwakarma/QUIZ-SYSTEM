@@ -1,9 +1,11 @@
 ﻿@page "/quizresult"
 @using System.Diagnostics;
+@using Microsoft.AspNetCore.Authorization
 @using Tool.Shared
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@attribute [Authorize(Roles = "USER")] 
 
 <div class="container">
     <div class="container-heading">

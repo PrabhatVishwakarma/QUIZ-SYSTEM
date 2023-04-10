@@ -1,14 +1,14 @@
 ﻿@page "/homepage"
 @using System.Diagnostics;
 @using System.Text.Json;
+@using Microsoft.AspNetCore.Authorization
 @using Tool.Shared
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@attribute [Authorize(Roles = "Admin")]
 
 <Sidebar></Sidebar>
-
-
 
 <PageTitle>Home Page</PageTitle>
 
