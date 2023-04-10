@@ -11,7 +11,6 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
     public DbSet<QuestionType> QuestionTypes { get; set; }
     public DbSet<QuizReport> QuizReports { get; set; }
     public DbSet<Score> Scores { get; set; }
-    public DbSet<QuizTaken> QuizTakens { get; set; }
     public DbSet<UserAnswer> UserAnswers { get; set; }
     public DbSet<UserAnswerMapping> UserAnswerMappings { get; set; }
 
@@ -29,6 +28,11 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
             .HasOne(e => e.User)
             .WithMany(e => e.Scores)
             .HasForeignKey(e => e.Id);
+
+        modelBuilder.Entity<Score>()
+        .HasOne(e => e.Quiz)
+        .WithMany(e => e.Scores)
+        .HasForeignKey(e => e.QuizId);
     }
 
 }

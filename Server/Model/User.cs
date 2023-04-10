@@ -19,8 +19,6 @@ namespace Tool.Server.Model
         public DateTime UpdatedAt { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
-
-        public List<QuizTaken>? QuizTaken { get; set; }
         //Navigation Properties
         public virtual ICollection<Score> Scores { get; set; }
 

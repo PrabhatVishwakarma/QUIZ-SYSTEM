@@ -62,11 +62,11 @@ namespace Tool.Server.Migrations
                 {
                     QuizId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    QuizTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QuizTitle = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     MaxScore = table.Column<int>(type: "int", nullable: false),
                     PassingScore = table.Column<int>(type: "int", nullable: false),
                     QuizLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Timer = table.Column<double>(type: "float", nullable: false),
+                    Timer = table.Column<double>(type: "float", maxLength: 3, nullable: false),
                     PublishedBy = table.Column<int>(type: "int", nullable: false),
                     PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -194,7 +194,7 @@ namespace Tool.Server.Migrations
                     QuestionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuizId = table.Column<int>(type: "int", nullable: false),
-                    QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    QuestionText = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     OptionOne = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OptionTwo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OptionThree = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -351,37 +351,6 @@ namespace Tool.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "QuizTakens",
-                columns: table => new
-                {
-                    QuizTakenId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ScoreId = table.Column<int>(type: "int", nullable: false),
-                    QuizId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuizTakens", x => x.QuizTakenId);
-                    table.ForeignKey(
-                        name: "FK_QuizTakens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_QuizTakens_Quizs_QuizId",
-                        column: x => x.QuizId,
-                        principalTable: "Quizs",
-                        principalColumn: "QuizId");
-                    table.ForeignKey(
-                        name: "FK_QuizTakens_Scores_ScoreId",
-                        column: x => x.ScoreId,
-                        principalTable: "Scores",
-                        principalColumn: "ScoreId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -437,21 +406,6 @@ namespace Tool.Server.Migrations
                 column: "QuizId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuizTakens_QuizId",
-                table: "QuizTakens",
-                column: "QuizId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuizTakens_ScoreId",
-                table: "QuizTakens",
-                column: "ScoreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuizTakens_UserId",
-                table: "QuizTakens",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Scores_Id",
                 table: "Scores",
                 column: "Id");
@@ -496,7 +450,7 @@ namespace Tool.Server.Migrations
                 name: "QuizReports");
 
             migrationBuilder.DropTable(
-                name: "QuizTakens");
+                name: "Scores");
 
             migrationBuilder.DropTable(
                 name: "UserAnswerMappings");
@@ -508,13 +462,10 @@ namespace Tool.Server.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Scores");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Questions");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Quizs");

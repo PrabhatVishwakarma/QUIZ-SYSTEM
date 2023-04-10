@@ -13,10 +13,12 @@ namespace Tool.Server.Model
 
         [Key]
         public int QuizId { get; set; }
+        [MaxLength(25)]
         public string QuizTitle { get; set; }
         public int MaxScore { get; set; }
         public int PassingScore { get; set; }
         public string QuizLevel { get; set; }
+        [MaxLength(3), Range(1, 100)]
         public double Timer { get; set; }
         public int PublishedBy { get; set; }
         public DateTime PublishedAt { get; set; }
