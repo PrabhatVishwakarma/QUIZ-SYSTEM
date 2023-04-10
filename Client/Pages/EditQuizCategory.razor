@@ -17,7 +17,7 @@
         <div class="Quiz-name form-input">
             <label for="quiz-category">Quiz Category Name : <b>@quiz.QuizTitle</b></label>
             <i class='fas fa-arrow-left btn-back' title="Back" @onclick=OnBackClick></i>
-        </div>
+        </div>   
         @if (questionList != null)
         {
                 <table class="master-table table table-striped table-borderless">
@@ -29,7 +29,11 @@
                             <th class="master-head QuestionNo"><b>Action</b></th>
                         </tr>
                     </thead>
-                    <tbody class="master-table3">
+                <tbody class="master-table3 text-align-center">
+                    @if (question.QuestionText == null || question.IsCorrect == null)
+                    {
+                        <div class=" text-danger ">No Question Available</div>
+                    }
                     @foreach (var q in questionList)
                     {
                         int index = (currentPage - 1) * quantityPerPage + questionList.IndexOf(q) + 1;
@@ -60,8 +64,10 @@
                             </div>
                         </div>
                     </tbody>
-                </table>
+            </table>
         }
+       
+
     </div>
 </div>
 
@@ -81,6 +87,7 @@
 
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
     QuizViewModel quiz = new QuizViewModel();
+    QuestionViewModel question = new QuestionViewModel();
 
     protected override async Task OnInitializedAsync()
     {
