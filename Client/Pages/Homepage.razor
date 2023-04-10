@@ -19,7 +19,7 @@
         <div class="login-actions">
             <button type="button" class=" btn btnADD" data-bs-toggle="modal" data-bs-target="#addquizcategorymodel" @onclick=@Okay>Add Quiz Category</button>
             <button type="button" class=" btn btnADD" @onclick=Logout>Logout</button>
-        </div>     
+        </div>
         @if (quizList != null)
         {
             <table class="master-table table table-striped table-borderless">
@@ -32,7 +32,7 @@
                     </tr>
                 </thead>
                 <tbody class="master-table3">
-                    
+
                     @if (quizList != null)
                     {
                         @foreach (var q in quizList)
@@ -81,11 +81,11 @@
                             <input style="width: 27rem;height: 2rem;" class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" disabled="@validResponse" required>
                             @if (quiz.Timer < 1 && flag)
                             {
-                                 <div class="text-danger"><h5>The timer value cannot be 0.</h5></div>
+                                <div class="text-danger"><h5>The timer value cannot be 0.</h5></div>
                             }
-                            else if(quiz.Timer>300 && flag)
+                            else if (quiz.Timer > 300 && flag)
                             {
-                                    <div class="text-danger"><h5>The timer value cannot be greater than 300.</h5></div>
+                                <div class="text-danger"><h5>The timer value cannot be greater than 300.</h5></div>
                             }
                         </div>
                     </form>
@@ -103,7 +103,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick=@Okay>Close</button>
                         <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
                         <br />
-                        
+
                     }
                     else
                     {
@@ -111,7 +111,7 @@
                         <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
                     }
                 </div>
-               
+
 
             </EditForm>
         </div>
@@ -132,16 +132,19 @@
     private int totalPageQuantity;
     private int currentPage = 1;
 
-    async Task getQuizCategory(int page = 1, int quantityPerPage = 5) {
+    async Task getQuizCategory(int page = 1, int quantityPerPage = 5)
+    {
         var httpResponse = await _http.GetAsync($"api/quiz/all?page={page}&quantityPerPage={quantityPerPage}");
-        if (httpResponse.IsSuccessStatusCode) {
+        if (httpResponse.IsSuccessStatusCode)
+        {
 
             totalPageQuantity = int.Parse(httpResponse.Headers.GetValues("pagesQuantity").FirstOrDefault());
             var responseString = await httpResponse.Content.ReadAsStringAsync();
             quizList = JsonSerializer.Deserialize<List<QuizViewModel>>(responseString,
                  new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-            foreach (var q in quizList) {
+            foreach (var q in quizList)
+            {
                 Debug.WriteLine(q.QuizTitle);
             }
         }
@@ -149,10 +152,11 @@
     protected override async Task OnInitializedAsync()
     {
         await getQuizCategory();
-        
+
     }
 
-    private async Task SelectedPage(int page) {
+    private async Task SelectedPage(int page)
+    {
         currentPage = page;
         await getQuizCategory(page);
     }
@@ -182,7 +186,7 @@
             return;
         }
 
-        if (quiz.Timer >= 1 && quiz.Timer <301 && quiz.QuizTitle != "")
+        if (quiz.Timer >= 1 && quiz.Timer < 301 && quiz.QuizTitle != "")
         {
             // Make a POST request to add quiz
             var response = await _http.PostAsJsonAsync("api/quiz", quiz);
@@ -197,10 +201,10 @@
 
     protected async Task Logout()
     {
-    {
-        await AuthService.Logout();
-        NavigationManager.NavigateTo("/");
-    }
+        {
+            await AuthService.Logout();
+            NavigationManager.NavigateTo("/");
+        }
     }
 
 
