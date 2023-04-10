@@ -29,6 +29,7 @@
                 one lowercase letter, one number and one special character." form="Password" required />
                     <ValidationMessage For="@(() => loginModel.Password)"></ValidationMessage>
                     <span asp-validation-for="email"></span>
+
                 </div>
                 @if (showErrors)
                 {
