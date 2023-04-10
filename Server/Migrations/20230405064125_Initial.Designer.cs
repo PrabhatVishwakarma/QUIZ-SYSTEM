@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Tool.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230410042839_Initial")]
+    [Migration("20230405064125_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -284,8 +284,7 @@ namespace Tool.Server.Migrations
 
                     b.Property<string>("QuestionText")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
@@ -372,14 +371,12 @@ namespace Tool.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuizTitle")
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Timer")
-                        .HasMaxLength(3)
                         .HasColumnType("float");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -436,6 +433,34 @@ namespace Tool.Server.Migrations
                     b.HasIndex("QuizId");
 
                     b.ToTable("QuizReports");
+                });
+
+            modelBuilder.Entity("Tool.Server.Model.QuizTaken", b =>
+                {
+                    b.Property<int>("QuizTakenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizTakenId"), 1L, 1);
+
+                    b.Property<int?>("QuizId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ScoreId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("QuizTakenId");
+
+                    b.HasIndex("QuizId");
+
+                    b.HasIndex("ScoreId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("QuizTakens");
                 });
 
             modelBuilder.Entity("Tool.Server.Model.Score", b =>
@@ -645,6 +670,27 @@ namespace Tool.Server.Migrations
                     b.Navigation("Quiz");
                 });
 
+            modelBuilder.Entity("Tool.Server.Model.QuizTaken", b =>
+                {
+                    b.HasOne("Tool.Server.Model.Quiz", "Quiz")
+                        .WithMany()
+                        .HasForeignKey("QuizId");
+
+                    b.HasOne("Tool.Server.Model.Score", "Scores")
+                        .WithMany()
+                        .HasForeignKey("ScoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tool.Server.Model.User", null)
+                        .WithMany("QuizTaken")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Quiz");
+
+                    b.Navigation("Scores");
+                });
+
             modelBuilder.Entity("Tool.Server.Model.Score", b =>
                 {
                     b.HasOne("Tool.Server.Model.User", "User")
@@ -700,6 +746,8 @@ namespace Tool.Server.Migrations
 
             modelBuilder.Entity("Tool.Server.Model.User", b =>
                 {
+                    b.Navigation("QuizTaken");
+
                     b.Navigation("Scores");
                 });
 #pragma warning restore 612, 618

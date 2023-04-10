@@ -18,7 +18,6 @@ namespace Tool.Server.Model
         [ForeignKey("QuizId")]
         public Quiz Quiz { get; set; }
         [Required]
-        [MaxLength(500)]
         public string QuestionText { get; set; }
         [Required]
         public string OptionOne { get; set; }
