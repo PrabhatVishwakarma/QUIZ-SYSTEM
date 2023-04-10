@@ -8,22 +8,14 @@
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
 @using Tool.Client.Components
-@attribute [Authorize(Roles = "User")]
-<Unauthorize !Role ="Admin">
-            <p>Sorry don't try to hack this site you are not authorized User!</p>
-</Unauthorize>
-<div class="container">
+@using Microsoft.AspNetCore.Components.Authorization
+
+
+<AuthorizeView Roles="USER"> 
+    <Authorized>
+<div class="container" >
     <div class="sidebar">
-        <AuthorizeView>
-        <Authorized>
-        <p>You are already logged in.</p>
-        <p><a href="/dashboard">Go to Dashboard</a></p>
-        </Authorized>
-        <NotAuthorized>
-        <p>You are not authorized user please login for access.</p>
-        </NotAuthorized>
-        </AuthorizeView>
-        <h2>Questions</h2>
+         <h2>Questions</h2>
         <ul>
             @for (int i = 0; i < questionList?.Count; i++)
             {
@@ -57,12 +49,6 @@
             <button class=" btn" id="next" @onclick="changeQuestionNext">Next</button>
             <button class=" btn alert-danger" data-bs-toggle="modal" data-bs-target="#submitquizmodel">Finish</button>
         </div>
-        @*<Authorize Role ="Admin">
-            <p>You arean authoried User !</p>
-        </Authorize>
-        <Unauthorize !Role ="Admin">
-            <p>Sorry don't try to hack this site you are not authorized User!</p>
-        </Unauthorize>*@
     </div>
 </div>
 <div class="modal fade" id="submitquizmodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -78,6 +64,16 @@
         </div>
     </div>
 </div>
+    </Authorized>
+    <NotAuthorized>
+            <div class="Container">
+                <div class="Container-heading">
+                    <h2>Unauthorized Access</h2>
+                </div>
+                <p>Dont Try To hack this Page</p>
+            </div>
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     [Parameter]
     public int QuizId { get; set; }
