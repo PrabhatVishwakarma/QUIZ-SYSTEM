@@ -1,10 +1,16 @@
 ﻿@page "/quizresult/{QuizId:int}"
 @using System.Diagnostics;
+@using Microsoft.AspNetCore.Authorization
 @using System.Text.Json;
 @using Tool.Shared
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@using Microsoft.AspNetCore.Components.Authorization
+
+
+<AuthorizeView Roles="USER">
+    <Authorized>
 
 <div class="container">
     <div class="container-heading">
@@ -30,6 +36,18 @@
         <button class="btn" @onclick="Exit">Exit</button>
     </div>
 </div>
+ </Authorized>
+    <NotAuthorized>
+            <div class="Container"  >
+                <div class="Container-heading">
+                    <h2>Unauthorized Access</h2>
+                </div>
+                <p>Dont Try To hack this Page</p>
+            </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+
 
 @code {
     [Parameter]

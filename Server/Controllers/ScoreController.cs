@@ -67,9 +67,5 @@ namespace Tool.Server.Controllers {
 
             return Ok(score);
         }
-
-
-
-
     }
 }
