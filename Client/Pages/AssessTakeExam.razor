@@ -107,33 +107,7 @@
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
     private int serialNo;
     protected int questionIndex = 0;
-    //[Parameter]
-    //public bool IsVisible { get; set; }
-
-    //[Parameter]
-    //public EventCallback<bool> IsVisibleChanged { get; set; }
-
-    //[Parameter]
-    //public string? HeaderText { get; set; }
-
-    //[Parameter]
-    //public string? BodyText { get; set; }
-    //public void Show(string bodyText, string headerText = "")
-    //{
-    //    HeaderText = headerText;
-    //    BodyText = bodyText;
-    //    IsVisible = true;
-    //    // StateHasChanged();
-    //}
-
-    //private void Close()
-    //{
-    //    HeaderText = string.Empty;
-    //    BodyText = string.Empty;
-    //    IsVisible = false;
-    //    // StateHasChanged();
-    //}
-
+   
     protected override async Task OnInitializedAsync()
     {
         serialNo = 1;
@@ -148,6 +122,61 @@
         await updateTime();
         //await Timer();
     }
+
+    //async Task updateTime()
+    //{
+    //    while (hours >= 0 && minutes >= 0 && seconds >= 0)
+    //    {
+    //        if (seconds == 0)
+    //        {
+    //            if (minutes == 0)
+    //            {
+    //                if (hours == 0)
+    //                {
+    //                    stopwatch.Stop();
+    //                    NavigationManager.NavigateTo("/quizresult");
+    //                    return;
+    //                }
+    //                else
+    //                {
+    //                    hours--;
+    //                    minutes = 59;
+    //                }
+    //            }
+    //            else
+    //            {
+    //                minutes--;
+    //            }
+    //            seconds = 59;
+    //        }
+    //        else
+    //        {
+    //            seconds--;
+    //        }
+
+    //        // Check if remaining time is 5 minutes
+    //        if (hours == 0 && minutes == 5 && seconds == 55)
+    //        {
+    //            var result = await JsRuntime.InvokeAsync<string>("showWarningMessage");
+    //            if (result == "continue")
+    //            {
+    //                // Continue with the quiz
+    //            }
+    //            else
+    //            {
+    //                // Stop the quiz and navigate to the quiz result page
+    //                stopwatch.Stop();
+    //                NavigationManager.NavigateTo("/quizresult");
+    //                return;
+    //            }
+    //        }
+
+    //        await Task.Delay(TimeSpan.FromSeconds(1));
+    //        StateHasChanged();
+
+    //       }
+    //}
+
 
     async Task updateTime()
     {
@@ -183,6 +212,7 @@
             // Check if remaining time is 5 minutes
             if (hours == 0 && minutes == 5 && seconds == 50)
             {
+
                 await using var jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/AssessTakeExam.js");
                 await jsModule.InvokeVoidAsync("helloWorld");
             }
