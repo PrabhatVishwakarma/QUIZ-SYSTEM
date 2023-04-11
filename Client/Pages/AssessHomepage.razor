@@ -1,14 +1,11 @@
 ﻿@page "/assesshomepage"
 @using System.Diagnostics;
-@using Microsoft.AspNetCore.Authorization
 @using Tool.Shared
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
-@using Microsoft.AspNetCore.Components.Authorization
 
 
-<AuthorizeView Roles="USER"> 
-    <Authorized>
+<PageTitle>Quiz Instruction</PageTitle>
         <div class="master p-4">
             <div class="Container">
                 <div class="Container-heading">
@@ -47,20 +44,6 @@
                 </div>
             </div>
         </div>
-    </Authorized>
-    <NotAuthorized>
-        <div class="master p-4">
-            <div class="Container">
-                <div class="Container-heading">
-                    <h2>Unauthorized Access</h2>
-                </div>
-                <p>Dont Try To hack this Page</p>
-            </div>
-        </div>
-    </NotAuthorized>
-</AuthorizeView>
-
-
 @code {
 
     [Parameter]
@@ -98,7 +81,7 @@
 
     private async Task GetQuizCategory()
     {
-        var response = await _http.GetAsync("api/quiz/GetAll");
+        var response = await _http.GetAsync("api/quiz/all");
         response.EnsureSuccessStatusCode();
         quizList = await response.Content.ReadFromJsonAsync<List<QuizViewModel>>();
         foreach (var q in quizList)

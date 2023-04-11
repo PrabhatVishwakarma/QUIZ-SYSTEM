@@ -1,12 +1,10 @@
 ﻿@page "/editquestion/{QuestionId:int}"
 @using System.Diagnostics;
-@using Microsoft.AspNetCore.Authorization
 @using Tool.Shared
 @inject IJSRuntime JsRuntime
 @inject HttpClient Http
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
-@attribute [Authorize(Roles = "Admin")]
 <PageTitle>EditQuestions</PageTitle>
 <div class="master p-4">
 <div class="Container-heading">

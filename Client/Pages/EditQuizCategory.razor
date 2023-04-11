@@ -1,13 +1,11 @@
 ﻿@page "/editquizcategory/{QuizId:int}"
 @using System.Diagnostics;
 @using System.Text.Json
-@using Microsoft.AspNetCore.Authorization
 @using Tool.Shared;
 @inject HttpClient _httpClient
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
-@attribute [Authorize(Roles = "Admin")]
 <PageTitle>EditQuizCategory</PageTitle>
 
 
@@ -72,8 +70,8 @@
     </div>
 </div>
 
-@*<Pagination TotalPagesQuantity="totalPageQuantity" CurrentPage="currentPage" Radius="2"
-            SelectedPage="SelectedPage"></Pagination>*@
+<Pagination TotalPagesQuantity="totalPageQuantity" CurrentPage="currentPage" Radius="2"
+            SelectedPage="SelectedPage"></Pagination>
 
 
 @code {

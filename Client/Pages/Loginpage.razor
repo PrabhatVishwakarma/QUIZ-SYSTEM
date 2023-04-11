@@ -76,11 +76,6 @@
     {
         showErrors = false;
         var result = await AuthService.Login(loginModel);       
-
-
-        if (result.Successful){        
-        var result = await AuthService.Login(loginModel);
-
         if (result.Successful)
         {
             userId = result.UserId;

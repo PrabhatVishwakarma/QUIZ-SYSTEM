@@ -1,11 +1,9 @@
 ﻿@page "/addquestion/{QuizId:int}"
 @using System.Diagnostics;
-@using Microsoft.AspNetCore.Authorization
 @using Tool.Shared
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
-@attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>AddQuestions</PageTitle>
 <div class="master p-4">

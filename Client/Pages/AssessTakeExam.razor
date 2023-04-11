@@ -1,7 +1,6 @@
 ﻿@page "/assesstakeexam/{QuizId:int}"
 @using System.Linq
 @using System.Diagnostics;
-@using Microsoft.AspNetCore.Authorization
 @using System.Text.Json;
 @using Tool.Shared
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -10,11 +9,8 @@
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
 @using Tool.Client.Components
-@using Microsoft.AspNetCore.Components.Authorization
 
-
-<AuthorizeView Roles="USER"> 
-    <Authorized>
+<PageTitle>Take Exam</PageTitle>
 <div class="container" >
     <div class="sidebar">
          <h2>Questions</h2>
@@ -66,16 +62,6 @@
         </div>
     </div>
 </div>
-    </Authorized>
-    <NotAuthorized>
-            <div class="Container">
-                <div class="Container-heading">
-                    <h2>Unauthorized Access</h2>
-                </div>
-                <p>Don't try to hack this page</p>
-            </div>
-    </NotAuthorized>
-</AuthorizeView>
 @code {
     [Parameter]
     public int QuizId { get; set; }

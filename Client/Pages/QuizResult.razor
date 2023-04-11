@@ -9,9 +9,6 @@
 @using Microsoft.AspNetCore.Components.Authorization
 
 
-<AuthorizeView Roles="USER">
-    <Authorized>
-
 <div class="container">
     <div class="container-heading">
         Quiz Category: @quiz.QuizTitle
@@ -36,17 +33,6 @@
         <button class="btn" @onclick="Exit">Exit</button>
     </div>
 </div>
- </Authorized>
-    <NotAuthorized>
-            <div class="Container"  >
-                <div class="Container-heading">
-                    <h2>Unauthorized Access</h2>
-                </div>
-                <p>Dont Try To hack this Page</p>
-            </div>
-    </NotAuthorized>
-</AuthorizeView>
-
 
 
 @code {
