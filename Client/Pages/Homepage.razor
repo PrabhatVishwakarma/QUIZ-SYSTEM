@@ -8,6 +8,8 @@
 
 <Sidebar></Sidebar>
 
+
+
 <PageTitle>Home Page</PageTitle>
 
 <div class="master p-4">
@@ -89,18 +91,27 @@
                     </form>
                 </div>
                 <div class="duplicate-category" disabled="@validResponse">
-                    @if (quizList != null && quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
+                    @if (quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()) && flag)
                     {
-                        <div class="text-danger"><h5>The quiz category title already exists.</h5></div>
+                        <div class="text-danger"><h5> <b>@quiz.QuizTitle</b> is already exists.</h5></div>
+
                     }
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick=@Okay>Close</button>
-                    <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" @onclick="Save">Save changes</button>
-                    <br />
-                </div>
+                    @if (!validResponse)
+                    {
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick=@Okay>Close</button>
+                        <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
+                        <br />
 
+                    }
+                    else
+                    {
+                        <div>Record Saved</div>
+                        <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
+                    }
+                </div>
 
 
             </EditForm>
@@ -110,6 +121,8 @@
 
 <Pagination TotalPagesQuantity="totalPageQuantity" CurrentPage="currentPage" Radius="2"
             SelectedPage="SelectedPage"></Pagination>
+
+
 
 
 @code {
@@ -167,7 +180,7 @@
     {
         this.flag = true;
 
-        // Check if quiz title already exists in quizList
+        //Check if quiz title already exists in quizList
         if (quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
         {
             validResponse = false;
@@ -185,7 +198,6 @@
 
             validResponse = true;
         }
-
     }
 
     protected async Task Logout()
