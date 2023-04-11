@@ -103,7 +103,7 @@
                     if (hours == 0)
                     {
                         stopwatch.Stop();
-                        NavigationManager.NavigateTo("/quizresult");
+                        await submit();
                         return;
                     }
                     else
