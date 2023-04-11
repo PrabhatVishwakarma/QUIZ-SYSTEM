@@ -88,27 +88,19 @@
                         </div>
                     </form>
                 </div>
-                <div class="duplicate-category" disable="@validResponse">
-                    @if (quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
+                <div class="duplicate-category" disabled="@validResponse">
+                    @if (quizList != null && quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
                     {
-                        <div class="text-danger"><h5> <b>@quiz.QuizTitle</b> is already exists.</h5></div>
+                        <div class="text-danger"><h5>The quiz category title already exists.</h5></div>
                     }
                 </div>
 
                 <div class="modal-footer">
-                    @if (!validResponse)
-                    {
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick=@Okay>Close</button>
-                        <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
-                        <br />
-
-                    }
-                    else
-                    {
-                        <div>Record Saved</div>
-                        <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
-                    }
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick=@Okay>Close</button>
+                    <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" @onclick="Save">Save changes</button>
+                    <br />
                 </div>
+
 
 
             </EditForm>
@@ -193,6 +185,7 @@
 
             validResponse = true;
         }
+
     }
 
     protected async Task Logout()
