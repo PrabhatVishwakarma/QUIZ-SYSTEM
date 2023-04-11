@@ -4,30 +4,14 @@
 @inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
-@*@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> _userManager*@
+@using Microsoft.AspNetCore.Components.Authorization
+
+
 
 
 <PageTitle>Tool Login</PageTitle>
     <div class="login-container">
     <div class="login-form">
-        @*<AuthorizeView>
-        <Authorized>
-        <p>You are already logged in.</p>
-        <p><a href="/dashboard">Go to Dashboard</a></p>
-        </Authorized>
-        <NotAuthorized>
-        <h1>Login</h1>
-        <form @onsubmit="Login">
-        <input type="text" bind="@loginModel.Email" />
-        <input type="password" bind="@loginModel.Password" />
-        <button type="submit">Login</button>
-        </form>
-        <p>You are not authorized user please login for access.</p>
-        </NotAuthorized>
-        </AuthorizeView>*@
         <EditForm Model="loginModel" OnValidSubmit="Login">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
 
@@ -92,20 +76,37 @@
 
 
         if (result.Successful){
-//        if (_userManager.IsInRole(await _userManager.FindByNameAsync(loginModel.Email), "Admin"))
-//        {
-//            NavigationManager.NavigateTo("/admin");
-//        }
-//        else if (_userManager.IsInRole(await _userManager.FindByNameAsync(loginModel.Email), "User"))
-//        {
-//            NavigationManager.NavigateTo("/user");
-//        }
-//        }
-//        else
-//        {
-//            Error = "Invalid username or password.";
-//        }
+        //if (_userManager.IsInRole(await _userManager.FindByNameAsync(loginModel.Email), "Admin"))
+        //{
+        //    NavigationManager.NavigateTo("/homepage");
+        //}
+        //else if (_userManager.IsInRole(await _userManager.FindByNameAsync(loginModel.Email), "User"))
+        //{
+        //    NavigationManager.NavigateTo("/user");
+        //}
+        //}
+        //else
+        //{
+        //    Error = "Invalid username or password.";
+        //}
+        //var userId = result.UserId;
 
+        // Check the user's role and navigate to the appropriate page
+//        var userRole = await AuthService.GetRoles();
+//        if (userRole == "Admin")
+//        {
+//            NavigationManager.NavigateTo("/homepage");
+//        }
+//        else if (userRole == "User")
+//        {
+//            NavigationManager.NavigateTo("/assesshomepage");
+//        }        
+//    }
+//    else
+//    {
+//        Error = result.Error!;
+//        showErrors = true;
+//    }
         
             NavigationManager.NavigateTo("/homepage");
         }
