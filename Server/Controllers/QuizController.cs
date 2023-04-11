@@ -31,6 +31,12 @@ namespace Tool.Server.Controllers
             return quiz;
         }
 
+        [HttpGet]
+        [Route("GetAll")]
+        public ActionResult<IEnumerable<Quiz>> GetAllQuizzes() {
+            var quizzes = _dbContext.Quizs.ToList();
+            return Ok(quizzes);
+        }
 
         // GET: api/<QuizController>
         [HttpGet]

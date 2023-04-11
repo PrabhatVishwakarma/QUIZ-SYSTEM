@@ -34,6 +34,7 @@
                 one lowercase letter, one number and one special character." form="Password" required />
                     <ValidationMessage For="@(() => loginModel.Password)"></ValidationMessage>
                     <span asp-validation-for="email"></span>
+
                 </div>
                 @if (showErrors)
                 {
@@ -57,7 +58,9 @@
 
 
 @code {
-   private LoginViewModel loginModel = new LoginViewModel();
+    [Parameter]
+    public string userId{ get; set; }
+    private LoginViewModel loginModel = new LoginViewModel();
     private bool showErrors;
     private string Error = "";
 
@@ -66,7 +69,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
+
     }
 
     protected async Task Login()
@@ -75,39 +78,12 @@
         var result = await AuthService.Login(loginModel);       
 
 
-        if (result.Successful){
-        //if (_userManager.IsInRole(await _userManager.FindByNameAsync(loginModel.Email), "Admin"))
-        //{
-        //    NavigationManager.NavigateTo("/homepage");
-        //}
-        //else if (_userManager.IsInRole(await _userManager.FindByNameAsync(loginModel.Email), "User"))
-        //{
-        //    NavigationManager.NavigateTo("/user");
-        //}
-        //}
-        //else
-        //{
-        //    Error = "Invalid username or password.";
-        //}
-        //var userId = result.UserId;
+        if (result.Successful){        
+        var result = await AuthService.Login(loginModel);
 
-        // Check the user's role and navigate to the appropriate page
-//        var userRole = await AuthService.GetRoles();
-//        if (userRole == "Admin")
-//        {
-//            NavigationManager.NavigateTo("/homepage");
-//        }
-//        else if (userRole == "User")
-//        {
-//            NavigationManager.NavigateTo("/assesshomepage");
-//        }        
-//    }
-//    else
-//    {
-//        Error = result.Error!;
-//        showErrors = true;
-//    }
-        
+        if (result.Successful)
+        {
+            userId = result.UserId;
             NavigationManager.NavigateTo("/homepage");
         }
         else

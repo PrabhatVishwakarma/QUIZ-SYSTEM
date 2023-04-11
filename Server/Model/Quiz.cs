@@ -13,6 +13,7 @@ namespace Tool.Server.Model
 
         [Key]
         public int QuizId { get; set; }
+        [MaxLength(25)]
         public string QuizTitle { get; set; }
         public int MaxScore { get; set; }
         public int PassingScore { get; set; }
