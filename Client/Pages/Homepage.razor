@@ -19,41 +19,41 @@
         <div class="login-actions">
             <button type="button" class=" btn btnADD" data-bs-toggle="modal" data-bs-target="#addquizcategorymodel" @onclick=@Okay>Add Quiz Category</button>
             <button type="button" class=" btn btnADD" @onclick=Logout>Logout</button>
-        </div>
+        </div>     
         @if (quizList != null)
         {
-            <table class="master-table table table-striped table-borderless">
-                <thead>
-                    <tr class="master-head">
-                        <th class="master-head"><b>Category</b></th>
-                        <th class="master-head"><b>Uploaded By</b></th>
-                        <th class="master-head"><b>Allowed Time in Minutes</b></th>
-                        <th class="master-head"><b>Action</b></th>
-                    </tr>
-                </thead>
-                <tbody class="master-table3">
+                <table class="master-table table table-striped table-borderless">
+                    <thead>
+                        <tr class="master-head">
+                            <th class="master-head"><b>Category</b></th>
+                            <th class="master-head"><b>Uploaded By</b></th>
+                            <th class="master-head"><b>Allowed Time in Minutes</b></th>
+                            <th class="master-head"><b>Action</b></th>
+                        </tr>
+                    </thead>
+                    <tbody class="master-table3">
 
                     @if (quizList != null)
                     {
                         @foreach (var q in quizList)
                         {
-                            <tr class="master-row">
-                                <td class="master-tablebody">@q.QuizTitle</td>
-                                <td class="master-tablebody">Admin</td>
-                                <td class="master-tablebody">@q.Timer</td>
-                                <td class="master-tablebody">
-                                    <a href="/editquizcategory/@q.QuizId" class="btn" title="Edit Quiz Category"><i class="fa fa-edit"></i></a>
-                                    <a href="/addquestion/@q.QuizId" class="btn" title="Add Question"><i class="fa-solid fa-circle-plus"></i></a>
+                                        <tr class="master-row">
+                                            <td class="master-tablebody">@q.QuizTitle</td>
+                                            <td class="master-tablebody">Admin</td>
+                                            <td class="master-tablebody">@q.Timer</td>
+                                            <td class="master-tablebody">
+                                                <a href="/editquizcategory/@q.QuizId" class="btn" title="Edit Quiz Category"><i class="fa fa-edit"></i></a>
+                                                <a href="/addquestion/@q.QuizId" class="btn" title="Add Question"><i class="fa-solid fa-circle-plus"></i></a>
 
                                     @*                                    <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
                         *@
-                                </td>
-                            </tr>
+                                            </td>
+                                        </tr>
                         }
                     }
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
         }
     </div>
 </div>
@@ -73,7 +73,7 @@
                             <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
                             @if ((string.IsNullOrEmpty(@quiz.QuizTitle) || string.IsNullOrWhiteSpace(@quiz.QuizTitle)) && flag)
                             {
-                                <br /> <div class="text-danger"><h5>Quiz Category name cannot be empty !</h5></div>
+                                    <br /> <div class="text-danger"><h5>Quiz Category name cannot be empty !</h5></div>
                             }
                         </div>
                         <div class="Allowed-Time form-input">
@@ -81,19 +81,20 @@
                             <input style="width: 27rem;height: 2rem;" class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" disabled="@validResponse" required>
                             @if (quiz.Timer < 1 && flag)
                             {
-                                <div class="text-danger"><h5>The timer value cannot be 0.</h5></div>
+                                     <div class="text-danger"><h5>The timer value cannot be 0.</h5></div>
                             }
                             else if (quiz.Timer > 300 && flag)
                             {
-                                <div class="text-danger"><h5>The timer value cannot be greater than 300.</h5></div>
+                                        <div class="text-danger"><h5>The timer value cannot be greater than 300.</h5></div>
                             }
                         </div>
                     </form>
                 </div>
-                <div class="duplicate-category" disabled="@validResponse">
-                    @if (quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()) && flag)
+                <div class="duplicate-category" disabled="@validResponse" >
+                    @if (quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()) && flag )
                     {
-                        <div class="text-danger"><h5> <b>@quiz.QuizTitle</b> is already exists.</h5></div>
+                            <div class="text-danger"><h5> <b>@quiz.QuizTitle</b> is already exists.</h5></div>
+                            
 
                     }
                 </div>
@@ -101,15 +102,15 @@
                 <div class="modal-footer">
                     @if (!validResponse)
                     {
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick=@Okay>Close</button>
-                        <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
-                        <br />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick=@Okay>Close</button>
+                            <button type="button" class="btn Chnage-btn" @onclick="Save">Save changes</button>
+                            <br />
 
                     }
                     else
                     {
-                        <div>Record Saved</div>
-                        <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
+                            <div>Record Saved</div>
+                            <button type="button" class="btn Chnage-btn" data-bs-dismiss="modal" aria-label="modal" @onclick="Okay">Ok</button>
                     }
                 </div>
 
@@ -180,7 +181,8 @@
     {
         this.flag = true;
 
-        //Check if quiz title already exists in quizList
+
+         //Check if quiz title already exists in quizList
         if (quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))
         {
             validResponse = false;
