@@ -23,6 +23,7 @@
     </div>
     <div class="main">
         <div class="main-heading">
+
             <b>Quiz Category :</b> @quiz?.QuizTitle
             <div class="timer">
                 <b>Timer: </b>
@@ -39,13 +40,15 @@
                     @($"{seconds} seconds")
                 }
             </div>
+
+
         </div>
         <br />
         <Question Question="@questionList?[questionIndex]" serialNo="@serialNo" />
         <div class="buttons">
             <button class=" btn" id="previous" @onclick="changeQuestionPrevious">Previous</button>
             <button class=" btn" id="next" @onclick="changeQuestionNext">Next</button>
-            <button class=" btn alert-danger" data-bs-toggle="modal" data-bs-target="#submitquizmodel">Finish</button>
+           <button class=" btn alert-danger" data-bs-toggle="modal" data-bs-target="#submitquizmodel">Finish</button>
         </div>
     </div>
 </div>
@@ -53,15 +56,20 @@
     <div class="modal-dialog delete-dialog-box">
         <div class="dialog-content">
             <div class="dialog-body">
-                 Are you sure you want to submit the exam?
-            </div>
-            <div class="modal-footer">
+                Are you sure you want to submit the exam?
+
+                <br />
+            @*</div>
+            <div class="modal-footer">*@
                 <button type="button" class="btn action-btn" data-bs-dismiss="modal">No</button>
                 <button type="button" data-bs-dismiss="modal" @onclick=submit class="btn action-btn alert-danger" id="submitquizButton1">Yes</button>
             </div>            
         </div>
     </div>
 </div>
+
+
+
 @code {
     [Parameter]
     public int QuizId { get; set; }
@@ -77,7 +85,7 @@
     List<QuestionViewModel> questionList = new List<QuestionViewModel>();
     private int serialNo;
     protected int questionIndex = 0;
-
+   
     protected override async Task OnInitializedAsync()
     {
         serialNo = 1;
@@ -90,9 +98,10 @@
         stopwatch.Start();
         await Task.Delay(TimeSpan.FromSeconds(1));
         await updateTime();
-
+        //await Timer();
     }
 
+    
     async Task updateTime()
     {
         while (hours >= 0 && minutes >= 0 && seconds >= 0)
@@ -125,18 +134,16 @@
             }
 
             // Check if remaining time is 5 minutes
-            if (hours == 0 && minutes == 5 && seconds == 0)
+            if (hours == 0 && minutes == 4 && seconds == 58)
             {
-                // Execute JavaScript function to show warning popup
                 await JsRuntime.InvokeAsync<object>("alert", "Warning: You have 5 minutes remaining to complete the quiz!");
+                //await using var jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/AssessTakeExam.js");
+               // await jsModule.InvokeVoidAsync("helloWorld");
             }
-
-
             await Task.Delay(TimeSpan.FromSeconds(1));
             StateHasChanged();
         }
     }
-
 
 
     async Task getQuiz()
@@ -156,6 +163,7 @@
             serialNo++;
         }
     }
+
 
     protected void changeQuestionPrevious()
     {
@@ -181,7 +189,11 @@
             }
 
         }
-        scores.ObtainedScore = (score * 100) / questionList.Count;
+    }
+
+    private void Continue()
+    {
+        NavigationManager.NavigateTo("/");
     }
 
 

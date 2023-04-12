@@ -90,7 +90,7 @@ body {
     width: 100%;
     display: flex;
     margin-top:5rem;
-    ;
+    
 }
 .btn {
     width: 10rem;
@@ -108,7 +108,7 @@ body {
 
 
 
-modal-content {
+.modal-content {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -149,14 +149,13 @@ modal-content {
     border: 1px solid rgba(0,0,0,.2);
     border-radius: 0.3rem;
     outline: 0;
-}
+    }
 
 .dialog-body {
-    position: relative;
+    /*border: 5px solid black;*/
     text-align: center;
     padding: 1rem;
     font-size: 18px;
-    ;
 }
 .modal-footer {
     display: flex;
@@ -165,4 +164,70 @@ modal-content {
     align-items: center;
     justify-content: space-evenly;
     padding: 0.75rem;
+}
+
+
+
+.dialog-content-warnig{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
+
+/// Prachi
+
+.modal-dialog1 {
+    width: 30rem;
+    max-width: 90%;
+}
+
+
+.delete-dialog-box1 {
+    margin: 4rem 0rem 0rem 24rem;
+    width: 35rem;
+    padding: 5px;
+    height: 12rem;
+}
+
+
+.dialog-content1 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
+.dialog-body1 {
+   /* border: 5px solid black;*/
+    text-align: center;
+    padding: 1rem;
+    font-size: 18px;
+}
+
+.modal-footer1 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 0.75rem;
+}
+
+.close {
+      color: #aaa;
+      float: right;
+      font-size: 35px;
+      font-weight: bold;
 }
