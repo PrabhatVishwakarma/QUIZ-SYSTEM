@@ -1,10 +1,11 @@
-﻿@page "/homepage"
+@page "/homepage"
 @using System.Diagnostics;
 @using System.Text.Json;
 @using Tool.Shared
 @inject HttpClient _http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@using System.Data.SqlClient;
 
 <Sidebar></Sidebar>
 
@@ -37,16 +38,17 @@
                     {
                         @foreach (var q in quizList)
                         {
-                                        <tr class="master-row">
-                                            <td class="master-tablebody">@q.QuizTitle</td>
-                                            <td class="master-tablebody">Admin</td>
-                                            <td class="master-tablebody">@q.Timer</td>
-                                            <td class="master-tablebody">
-                                                <a href="/editquizcategory/@q.QuizId" class="btn" title="Edit Quiz Category"><i class="fa fa-edit"></i></a>
-                                                <a href="/addquestion/@q.QuizId" class="btn" title="Add Question"><i class="fa-solid fa-circle-plus"></i></a>
 
-                                    @*                                    <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
-                        *@
+                            <tr class="master-row">
+                                <td class="master-tablebody">@q.QuizTitle</td>
+                                <td class="master-tablebody">Admin</td>
+                                <td class="master-tablebody">@q.Timer</td>
+                                <td class="master-tablebody">
+                                    <a href="/editquizquestion/@q.QuizId" class="btn" title="Edit Quiz Question"><i class="fa fa-edit"></i></a>
+                                    <a href="/addquestion/@q.QuizId" class="btn" title="Add Question"><i class="fa-solid fa-circle-plus"></i></a>
+
+
+                                    
                                             </td>
                                         </tr>
                         }
@@ -68,14 +70,24 @@
                 <DataAnnotationsValidator />
                 <div class="modal-body">
                     <form class="input-form">
-                        <div class="Quiz-name form-input">
+                         <div class="Quiz-name form-input">
                             <label for="quiz-category">Quiz Category Name </label>
-                            <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
-                            @if ((string.IsNullOrEmpty(@quiz.QuizTitle) || string.IsNullOrWhiteSpace(@quiz.QuizTitle)) && flag)
+                            <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" maxlength="300" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
+
+@*                            <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" min="1" max="5" @bind="@quiz.QuizTitle" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%^&*]).{,5}" title="Words must be less than 200" disabled="@validResponse" required>
+*@                            @if ((string.IsNullOrEmpty(@quiz.QuizTitle) || string.IsNullOrWhiteSpace(@quiz.QuizTitle)) && flag)
                             {
-                                    <br /> <div class="text-danger"><h5>Quiz Category name cannot be empty !</h5></div>
+                                <br /> <div class="text-danger"><h5>Quiz Category name cannot be empty & must contained characters less than 200</h5></div>
+
                             }
+
+                   @*         @if (!string.IsNullOrEmpty(quiz.QuizTitle) && quiz.QuizTitle.Split(' ').Length > 10 && flag)
+                            {
+                                <br/>
+                                <div class="text-danger"><h6>The Quiz Category name must contain less than 10 words.</h6></div>
+                            }*@
                         </div>
+                       
                         <div class="Allowed-Time form-input">
                             <label for="allowed-time">Allowed Time in minutes </label>
                             <input style="width: 27rem;height: 2rem;" class="time-input" type="number" id="allowed-time" min="1" @bind="@quiz.Timer" form="Timer" disabled="@validResponse" required>
@@ -118,12 +130,11 @@
             </EditForm>
         </div>
     </div>
+   
 </div>
 
 <Pagination TotalPagesQuantity="totalPageQuantity" CurrentPage="currentPage" Radius="2"
             SelectedPage="SelectedPage"></Pagination>
-
-
 
 
 @code {
@@ -225,4 +236,6 @@
     {
         NavigationManager.NavigateTo("/homepage");
     }
+
+        
 }
