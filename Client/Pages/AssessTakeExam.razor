@@ -23,22 +23,22 @@
     </div>
     <div class="main">
         <div class="main-heading">
-
-            <div id="pqr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@*
+            <div id="pqr" tabindex="-1" aria-labelledby="examplemodallabel" aria-hidden="true">
                 <div class="modal-dialog1 delete-dialog-box1">
                   
                     <div class="dialog-content1">
                         <div class="dialog-body1">
                             <span class="close">&times;</span>
-                            Warning for 5 mins left!!!
+                            warning for 5 mins left!!!
                         </div>
                         <div class="modal-footer1">
-                            <button type="button" class="btn action-btn" data-bs-dismiss="modal">Continue</button>
+                            <button type="button" class="btn action-btn" data-bs-dismiss="modal">continue</button>
                         </div>
                     </div>
                 </div>
             </div>
-
+*@
             <b>Quiz Category :</b> @quiz?.QuizTitle
             <div class="timer">
                 <b>Timer: </b>
@@ -72,8 +72,10 @@
         <div class="dialog-content">
             <div class="dialog-body">
                 Are you sure you want to submit the exam?
-            </div>
-            <div class="modal-footer">
+
+                <br />
+            @*</div>
+            <div class="modal-footer">*@
                 <button type="button" class="btn action-btn" data-bs-dismiss="modal">No</button>
                 <button type="button" data-bs-dismiss="modal" @onclick=submit class="btn action-btn alert-danger" id="submitquizButton1">Yes</button>
             </div>            
@@ -215,11 +217,11 @@
             }
 
             // Check if remaining time is 5 minutes
-            if (hours == 0 && minutes == 5 && seconds == 50)
+            if (hours == 0 && minutes == 4 && seconds == 58)
             {
-
-                await using var jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/AssessTakeExam.js");
-                await jsModule.InvokeVoidAsync("helloWorld");
+                await JsRuntime.InvokeAsync<object>("alert", "Warning: You have 5 minutes remaining to complete the quiz!");
+                //await using var jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/AssessTakeExam.js");
+               // await jsModule.InvokeVoidAsync("helloWorld");
             }
             await Task.Delay(TimeSpan.FromSeconds(1));
             StateHasChanged();

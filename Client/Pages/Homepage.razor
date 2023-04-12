@@ -71,12 +71,12 @@
                     <form class="input-form">
                          <div class="Quiz-name form-input">
                             <label for="quiz-category">Quiz Category Name </label>
-                            <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" maxlength="200" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
+                            <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" maxlength="300" @bind="@quiz.QuizTitle" disabled="@validResponse" required>
 
 @*                            <input style="width: 27rem;height: 2rem;" type="text" id="quiz-category" form="QuizTitle" min="1" max="5" @bind="@quiz.QuizTitle" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%^&*]).{,5}" title="Words must be less than 200" disabled="@validResponse" required>
 *@                            @if ((string.IsNullOrEmpty(@quiz.QuizTitle) || string.IsNullOrWhiteSpace(@quiz.QuizTitle)) && flag)
                             {
-                                <br /> <div class="text-danger"><h5>Quiz Category name cannot be empty & must contained words less than 200</h5></div>
+                                <br /> <div class="text-danger"><h5>Quiz Category name cannot be empty & must contained characters less than 200</h5></div>
                             }
 
                    @*         @if (!string.IsNullOrEmpty(quiz.QuizTitle) && quiz.QuizTitle.Split(' ').Length > 10 && flag)
