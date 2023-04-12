@@ -4,12 +4,17 @@
 @inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@using Microsoft.AspNetCore.Components.Authorization
+
+
+
 
 <PageTitle>Tool Login</PageTitle>
     <div class="login-container">
     <div class="login-form">
         <EditForm Model="loginModel" OnValidSubmit="Login">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
+
                 <div class="form"
                 <div class="login-input-container">
                     <label for="email" class="login-input-label">Username</label>
@@ -70,8 +75,7 @@
     protected async Task Login()
     {
         showErrors = false;
-        var result = await AuthService.Login(loginModel);
-
+        var result = await AuthService.Login(loginModel);       
         if (result.Successful)
         {
             userId = result.UserId;

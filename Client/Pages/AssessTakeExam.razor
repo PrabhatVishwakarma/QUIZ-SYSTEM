@@ -10,9 +10,10 @@
 @inject NavigationManager NavigationManager
 @using Tool.Client.Components
 
-<div class="container">
+<PageTitle>Take Exam</PageTitle>
+<div class="container" >
     <div class="sidebar">
-        <h2>Questions</h2>
+         <h2>Questions</h2>
         <ul>
             @for (int i = 0; i < questionList?.Count; i++)
             {
@@ -57,7 +58,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn action-btn" data-bs-dismiss="modal">No</button>
                 <button type="button" data-bs-dismiss="modal" @onclick=submit class="btn action-btn alert-danger" id="submitquizButton1">Yes</button>
-            </div>
+            </div>            
         </div>
     </div>
 </div>
@@ -103,7 +104,7 @@
                     if (hours == 0)
                     {
                         stopwatch.Stop();
-                        NavigationManager.NavigateTo("/quizresult");
+                        await submit();
                         return;
                     }
                     else

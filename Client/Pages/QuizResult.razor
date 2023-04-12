@@ -1,10 +1,13 @@
 ﻿@page "/quizresult/{QuizId:int}"
 @using System.Diagnostics;
+@using Microsoft.AspNetCore.Authorization
 @using System.Text.Json;
 @using Tool.Shared
 @inject HttpClient _Http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@using Microsoft.AspNetCore.Components.Authorization
+
 
 <div class="container">
     <div class="container-heading">
@@ -30,6 +33,7 @@
         <button class="btn" @onclick="Exit">Exit</button>
     </div>
 </div>
+
 
 @code {
     [Parameter]

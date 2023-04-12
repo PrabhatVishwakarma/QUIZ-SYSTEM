@@ -369,7 +369,8 @@ namespace Tool.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuizTitle")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");

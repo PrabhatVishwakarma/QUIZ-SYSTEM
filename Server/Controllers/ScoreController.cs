@@ -33,13 +33,8 @@ namespace Tool.Server.Controllers {
             {
                 return NotFound("Score not found.");
             }
-
             return Ok(score);
         }
-
-
-
-
 
         // GET: api/ScoreController/5
         [HttpGet("{quizId}/{userId}")]
@@ -67,9 +62,5 @@ namespace Tool.Server.Controllers {
 
             return Ok(score);
         }
-
-
-
-
     }
 }

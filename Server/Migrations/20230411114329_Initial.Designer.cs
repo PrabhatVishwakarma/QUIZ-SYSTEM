@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Tool.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230410080124_Initial")]
+    [Migration("20230411114329_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -371,7 +371,8 @@ namespace Tool.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuizTitle")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");

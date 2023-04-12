@@ -95,6 +95,7 @@
                     {
                             <div class="text-danger"><h5> <b>@quiz.QuizTitle</b> is already exists.</h5></div>
                             
+
                     }
                 </div>
 
@@ -179,6 +180,7 @@
     async Task Save()
     {
         this.flag = true;
+
 
          //Check if quiz title already exists in quizList
         if (quizList.Any(q => q.QuizTitle.ToLower() == quiz.QuizTitle.ToLower()))

@@ -62,7 +62,7 @@ namespace Tool.Server.Migrations
                 {
                     QuizId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    QuizTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QuizTitle = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     MaxScore = table.Column<int>(type: "int", nullable: false),
                     PassingScore = table.Column<int>(type: "int", nullable: false),
                     QuizLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),

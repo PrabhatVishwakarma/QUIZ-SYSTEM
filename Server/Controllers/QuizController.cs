@@ -31,7 +31,6 @@ namespace Tool.Server.Controllers
             return quiz;
         }
 
-
         // GET: api/<QuizController>
         [HttpGet]
         [Route("all")]
