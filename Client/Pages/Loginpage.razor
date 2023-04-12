@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Identity
 @using Tool.Shared
 @inject HttpClient Http
 @inject IAuthService AuthService
@@ -64,7 +65,8 @@
     private bool showErrors;
     private string Error = "";
 
-
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
 
     protected override async Task OnInitializedAsync()
@@ -76,7 +78,21 @@
     {
         showErrors = false;
         var result = await AuthService.Login(loginModel);       
-        if (result.Successful)
+        if (result.Successful) 
+            //if (await _userManager.IsInRoleAsync(await _userManager.FindByNameAsync(loginModel.Email), "Admin"))
+            //{
+            //    NavigationManager.NavigateTo("/homepage");
+            //}
+            //else /*(await _userManager.IsInRoleAsync(await _userManager.FindByNameAsync(loginModel.Email), "User"))*/
+            //{
+            //    NavigationManager.NavigateTo("/assesshomepage");
+            //}
+            //}
+            //else
+            //{
+            //    Error = "Invalid username or password.";
+            //}
+        //if (result.Successful)
         {
             userId = result.UserId;
             NavigationManager.NavigateTo("/homepage");
