@@ -23,22 +23,7 @@
     </div>
     <div class="main">
         <div class="main-heading">
-@*
-            <div id="pqr" tabindex="-1" aria-labelledby="examplemodallabel" aria-hidden="true">
-                <div class="modal-dialog1 delete-dialog-box1">
-                  
-                    <div class="dialog-content1">
-                        <div class="dialog-body1">
-                            <span class="close">&times;</span>
-                            warning for 5 mins left!!!
-                        </div>
-                        <div class="modal-footer1">
-                            <button type="button" class="btn action-btn" data-bs-dismiss="modal">continue</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-*@
+
             <b>Quiz Category :</b> @quiz?.QuizTitle
             <div class="timer">
                 <b>Timer: </b>
@@ -85,20 +70,6 @@
 
 
 
-@*<div class="toast-container p-3 @showClass" data-bs-autohide="true" data-bs-delay="5000">
-    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">@HeaderText</strong>
-            <button type="button" class="btn-close" aria-label="Close" @onclick="Close"></button>
-        </div>
-
-        <div class="toast-body">
-           
-        </div>
-    </div>
-</div>
-*@
-
 @code {
     [Parameter]
     public int QuizId { get; set; }
@@ -130,61 +101,7 @@
         //await Timer();
     }
 
-    //async Task updateTime()
-    //{
-    //    while (hours >= 0 && minutes >= 0 && seconds >= 0)
-    //    {
-    //        if (seconds == 0)
-    //        {
-    //            if (minutes == 0)
-    //            {
-    //                if (hours == 0)
-    //                {
-    //                    stopwatch.Stop();
-    //                    NavigationManager.NavigateTo("/quizresult");
-    //                    return;
-    //                }
-    //                else
-    //                {
-    //                    hours--;
-    //                    minutes = 59;
-    //                }
-    //            }
-    //            else
-    //            {
-    //                minutes--;
-    //            }
-    //            seconds = 59;
-    //        }
-    //        else
-    //        {
-    //            seconds--;
-    //        }
-
-    //        // Check if remaining time is 5 minutes
-    //        if (hours == 0 && minutes == 5 && seconds == 55)
-    //        {
-    //            var result = await JsRuntime.InvokeAsync<string>("showWarningMessage");
-    //            if (result == "continue")
-    //            {
-    //                // Continue with the quiz
-    //            }
-    //            else
-    //            {
-    //                // Stop the quiz and navigate to the quiz result page
-    //                stopwatch.Stop();
-    //                NavigationManager.NavigateTo("/quizresult");
-    //                return;
-    //            }
-    //        }
-
-    //        await Task.Delay(TimeSpan.FromSeconds(1));
-    //        StateHasChanged();
-
-    //       }
-    //}
-
-
+    
     async Task updateTime()
     {
         while (hours >= 0 && minutes >= 0 && seconds >= 0)
@@ -227,14 +144,6 @@
             StateHasChanged();
         }
     }
-
-    //async Task Timer()
-    //{
-    //    if (minutes <= 5 && seconds == 0) ;
-    //    {
-    //        await JsRuntime.InvokeAsync<object>("alert", "Warning: You have 5 minutes remaining to complete the quiz!");
-    //    }
-    //}
 
 
     async Task getQuiz()
